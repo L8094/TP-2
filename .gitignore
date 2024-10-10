@@ -1,8 +1,7 @@
 # Archivos generados por Eclipse
 
 # Directorios de compilación
-target/
+
 bin/
 
-# Archivos de sistema
-.DS_Store
+
