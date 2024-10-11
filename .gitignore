@@ -1,7 +1,5 @@
 # Archivos generados por Eclipse
-.classpath
-.project
-.settings/
+
 # Directorios de compilación
 target/
 bin/
