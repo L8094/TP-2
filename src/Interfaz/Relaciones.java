@@ -8,11 +8,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
-
 import Logica.Aristas;
-
 import java.awt.Font;
 
 public class Relaciones {
@@ -24,7 +23,7 @@ public class Relaciones {
 	private String primerEspia;
 	private String segundoEspia;
 	private String peso;
-	private ArrayList<Aristas> aristaList;
+	private static ArrayList<Aristas> aristaList;
 	
 
 	public void ingresoPrimerEspia() {
@@ -35,6 +34,8 @@ public class Relaciones {
 	primerEspia = textField.getText();
 	}
 	
+//--------------------------------------------------------------------------------------------------------
+	
 	public void ingresoSegundoEspia() {
 	textField_1 = new JTextField();
 	textField_1.setBounds(395, 195, 86, 20);
@@ -42,7 +43,9 @@ public class Relaciones {
 	textField_1.setColumns(10);
 	segundoEspia = textField.getText();
 	}
-	
+
+//--------------------------------------------------------------------------------------------------------
+
 	public void ingresoPeso() {
 	textField_2 = new JTextField();
 	textField_2.setBounds(395, 273, 86, 20);
@@ -50,24 +53,31 @@ public class Relaciones {
 	textField_2.setColumns(10);
 	peso = textField.getText();
 	}
-	
+
+//--------------------------------------------------------------------------------------------------------	
 	public void labelPrimerEspia() {
 	JLabel lblNewLabel = new JLabel("ESPIA");
 	lblNewLabel.setBounds(251, 124, 40, 28);
 	frame.getContentPane().add(lblNewLabel);
 	}
+
+//--------------------------------------------------------------------------------------------------------	
 	
 	public void labelSegundoEspia() {
 	JLabel lblNewLabel_1 = new JLabel("ESPIA");
 	lblNewLabel_1.setBounds(251, 198, 46, 14);
 	frame.getContentPane().add(lblNewLabel_1);
 	}
+
+//--------------------------------------------------------------------------------------------------------	
 	
 	public void labelPeso() {
 	JLabel lblNewLabel_2 = new JLabel("PESO");
 	lblNewLabel_2.setBounds(251, 276, 46, 14);
 	frame.getContentPane().add(lblNewLabel_2);
 	}
+
+//--------------------------------------------------------------------------------------------------------	
 	
 	public void labelDefinirRelacion() {
 	JLabel lblNewLabel_3 = new JLabel("DEFINIR RELACION");
@@ -76,21 +86,20 @@ public class Relaciones {
 	lblNewLabel_3.setBounds(236, 45, 245, 28);
 	frame.getContentPane().add(lblNewLabel_3);
 	}
+
+//--------------------------------------------------------------------------------------------------------
 	
 	public void botonCrearRelacion() {
 		JButton btnNewButton = new JButton("CREAR RELACION");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Capturar los valores de los JTextField al hacer clic en el botón
 				primerEspia = textField.getText();
-				segundoEspia = textField_1.getText(); // corregido para usar el campo correcto
-				peso = textField_2.getText();         // corregido para usar el campo correcto
-
-				// Crear la relación de Aristas
+				segundoEspia = textField_1.getText(); 
+				peso = textField_2.getText();         
+				
 				Aristas arista = new Aristas(Integer.parseInt(primerEspia), Integer.parseInt(segundoEspia), Double.parseDouble(peso));
 				aristaList.add(arista);
 
-				// Limpiar los campos de texto
 				textField.setText("");
 				textField_1.setText("");
 				textField_2.setText("");
@@ -101,13 +110,26 @@ public class Relaciones {
 		frame.getContentPane().add(btnNewButton);
 	}
 
-
-	public void botonCrearGrafo () {
-	JButton btnNewButton_1 = new JButton("CREAR GRAFO");
-	btnNewButton_1.setBounds(485, 358, 134, 23);
-	frame.getContentPane().add(btnNewButton_1);
+//--------------------------------------------------------------------------------------------------------
 	
+	public void botonCrearGrafo() {
+	    JButton btnNewButton_1 = new JButton("CREAR GRAFO");
+	    btnNewButton_1.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	             frame.setVisible(false);
+	 			 MostrarKruskal.main(null);	        }
+	    });
+	    btnNewButton_1.setBounds(485, 358, 134, 23);
+	    frame.getContentPane().add(btnNewButton_1);
 	}
+	
+//--------------------------------------------------------------------------------------------------------		
+
+	public static List<Aristas> getListAristas(){
+		return aristaList;
+	}
+
+//--------------------------------------------------------------------------------------------------------	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

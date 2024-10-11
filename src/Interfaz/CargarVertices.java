@@ -37,7 +37,8 @@ public class CargarVertices {
 		}
 	});
 	}
-	
+
+//--------------------------------------------------------------------------------------------------------	
 	
 	public void botonEliminarVertice() {
 	JButton btnNewButton_1 = new JButton("Eliminar vertice");
@@ -45,7 +46,8 @@ public class CargarVertices {
 	panelControles.add(btnNewButton_1);
 	}
 	
-	
+//--------------------------------------------------------------------------------------------------------	
+		
 	private void detectarCoordenadas()  
 	{
 		_lasCoordenadas = new ArrayList<Coordinate>();
@@ -66,10 +68,8 @@ public class CargarVertices {
 		});
 	}
 	
-	
-	
-	
-	
+//--------------------------------------------------------------------------------------------------------	
+		
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -88,7 +88,6 @@ public class CargarVertices {
 		initialize();
 	}
 
-	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 750, 500);
@@ -113,6 +112,5 @@ public class CargarVertices {
 		botonDefinirRelaciones();
 		botonEliminarVertice();
 		
-
 	}
 }
