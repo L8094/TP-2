@@ -1,16 +1,18 @@
 package Logica;
 
 	import java.util.ArrayList;
-	import java.util.List;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 	public class Grafo {
 		    private List<Aristas> aristas;
-		    private int numeroDeNodos;
+		    private int numeroDeVertices;
 		    
 //--------------------------------------------------------------------------------------------------------	
 			
 		    public Grafo(int numeroDeNodos) {
-		        this.numeroDeNodos = numeroDeNodos;
+		        this.numeroDeVertices = numeroDeNodos;
 		        this.aristas = new ArrayList<>();
 		    }
 
@@ -28,8 +30,8 @@ package Logica;
 
 //--------------------------------------------------------------------------------------------------------	
 					    
-		    public int getNumeroDeNodos() {
-		        return numeroDeNodos;
+		    public int getCantVertices() {
+		        return numeroDeVertices;
 		    }
 		    
 //--------------------------------------------------------------------------------------------------------	
@@ -41,4 +43,22 @@ package Logica;
 		                               ", Peso: " + arista.getPeso());
 		        }
 		    }	
-}
+
+	
+//--------------------------------------------------------------------------------------------------------	
+
+	
+    public Set<String> vecinos(String vertice) {
+        Set<String> vecinos = new HashSet<>();
+
+        for (Aristas arista : aristas) {
+            if (arista.getInicio().equals(vertice)) {
+                vecinos.add(arista.getFin());
+            } else if (arista.getFin().equals(vertice)) {
+                vecinos.add(arista.getInicio());
+            }
+        }
+
+        return vecinos;
+    }
+   }

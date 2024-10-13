@@ -1,13 +1,12 @@
 package Logica;
 
 public class Aristas {
-	
 
-	    private int inicio;
-	    private int fin;
+	    private String inicio;
+	    private String fin;
 	    private double peso;
 
-	    public Aristas(int inicio, int fin, double peso) {
+	    public Aristas(String inicio, String fin, double peso) {
 	        verificarParametro(inicio);
 	        verificarParametro(fin);
 
@@ -16,20 +15,21 @@ public class Aristas {
 	        this.peso=peso;
 	    }
 //--------------------------------------------------------------------------------------------------------			
-		private void verificarParametro(int i) {
-	        if( i < 0 )
-	            throw new IllegalArgumentException("El inicio no puede ser negativo: " + i);
+		private void verificarParametro(String nodo) {
+	        if( nodo == null || nodo.isEmpty() ) {
+	            throw new IllegalArgumentException("El inicio no puede ser negativo: " + nodo);
+	        }
 	    } 
 
 //--------------------------------------------------------------------------------------------------------	
 		
-	    public int getInicio() {
+	    public String getInicio() {
 	        return inicio;
 	    }
 
 //--------------------------------------------------------------------------------------------------------	
 		
-	    public int getFin() { 
+	    public String getFin() { 
 	        return fin;
 	    }
 	  

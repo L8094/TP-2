@@ -1,7 +1,5 @@
 package Logica;
 
-
-
 import java.util.*;
 
 public class Kruskal {
@@ -17,13 +15,11 @@ public class Kruskal {
         List<Aristas> aristas = new ArrayList<>(grafo.getAristas());
  
         ordenarAristasPorPeso(aristas);
-        
         for (Aristas arista : aristas) {
             if (!formaCiclo(arista, agm)) {
                 agm.add(arista);
             }
         }
-
         return agm;
     }
     
@@ -41,18 +37,17 @@ public class Kruskal {
                 aristas.set(i, aristas.get(indiceMinimo));
                 aristas.set(indiceMinimo, temporal);
             }
-
             return aristas;
         }
     
 //--------------------------------------------------------------------------------------------------------		
     // Verificar si una arista forma un ciclo usando BFS
-    private boolean formaCiclo(Aristas arista, List<Aristas> agm) {
-        int inicio = arista.getInicio();
-        int fin = arista.getFin();
+    public boolean formaCiclo(Aristas arista, List<Aristas> agm) {
+        String inicio = arista.getInicio();
+        String fin = arista.getFin();
         
         // Mapear conexiones de los nodos ya en el MST
-        Map<Integer, List<Integer>> adyacencias = new HashMap<>();
+        Map<String, List<String>> adyacencias = new HashMap<>();
         for (Aristas a : agm) {
             // Asegurar que 'inicio' tenga una lista de adyacencias
             if (!adyacencias.containsKey(a.getInicio())) {
@@ -70,16 +65,16 @@ public class Kruskal {
         
         
         // BFS para detectar ciclos entre inicio y fin
-        Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> visitados = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visitados = new HashSet<>();
         
         queue.add(inicio);
         visitados.add(inicio);
 
         while (!queue.isEmpty()) {
-            int nodo = queue.poll();
-            for (int vecino : adyacencias.getOrDefault(nodo, new ArrayList<>())) {
-                if (vecino == fin) {
+            String nodo = queue.poll();
+            for (String vecino : adyacencias.getOrDefault(nodo, new ArrayList<>())) {
+                if (vecino.equals(fin)) {
                     return true;
                 }
                 if (!visitados.contains(vecino)) {

@@ -11,14 +11,13 @@ import Logica.Kruskal;
 import javax.swing.JTextArea;
 
 
-
 public class MostrarKruskal {
 
 	private JFrame frame;
 	private JTextArea textArea;
 	
 	private int cantidadNodos(List<Aristas> listAristas) {
-		Set<Integer> nodosUnicos = new HashSet<>();
+		Set<String> nodosUnicos = new HashSet<>();
 		for (Aristas arista : listAristas) {
 			nodosUnicos.add(arista.getInicio());
 			nodosUnicos.add(arista.getFin());
@@ -30,7 +29,7 @@ public class MostrarKruskal {
 	
 	 public void mostrarAGM(List<Aristas> agm) {
 	        StringBuilder sb = new StringBuilder();
-	        sb.append("Aristas del ¡rbol de ExpansiÛn MÌnima:\n");
+	        sb.append("Aristas del √°rbol de expansi√≥n m√≠nima: \n");
 	        for (Aristas arista : agm) {
 	            sb.append("Inicio: ").append(arista.getInicio())
 	              .append(", Fin: ").append(arista.getFin())

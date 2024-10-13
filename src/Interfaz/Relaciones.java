@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -15,112 +16,136 @@ import Logica.Aristas;
 import java.awt.Font;
 
 public class Relaciones {
-
+	
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField ingresarEspiaUno;
+	private JTextField ingresarEspiaDos;
+	private JTextField ingresarProbabilidadIntercep;
 	private String primerEspia;
 	private String segundoEspia;
+	
 	private String peso;
 	private static ArrayList<Aristas> aristaList;
 	
 
 	public void ingresoPrimerEspia() {
-	textField = new JTextField();
-	textField.setBounds(395, 128, 86, 20);
-	frame.getContentPane().add(textField);
-	textField.setColumns(10);
-	primerEspia = textField.getText();
+		ingresarEspiaUno = new JTextField();
+		ingresarEspiaUno.setBounds(327, 124, 292, 20);
+		frame.getContentPane().add(ingresarEspiaUno);
+		ingresarEspiaUno.setColumns(10);
+		primerEspia = ingresarEspiaUno.getText();
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
 	public void ingresoSegundoEspia() {
-	textField_1 = new JTextField();
-	textField_1.setBounds(395, 195, 86, 20);
-	frame.getContentPane().add(textField_1);
-	textField_1.setColumns(10);
-	segundoEspia = textField.getText();
+		ingresarEspiaDos = new JTextField();
+		ingresarEspiaDos.setBounds(327, 191, 292, 20);
+		frame.getContentPane().add(ingresarEspiaDos);
+		ingresarEspiaDos.setColumns(10);
+		segundoEspia = ingresarEspiaDos.getText();
 	}
 
 //--------------------------------------------------------------------------------------------------------
 
-	public void ingresoPeso() {
-	textField_2 = new JTextField();
-	textField_2.setBounds(395, 273, 86, 20);
-	frame.getContentPane().add(textField_2);
-	textField_2.setColumns(10);
-	peso = textField.getText();
+	public void ingresoProbabilidadIntercepcion() {
+		ingresarProbabilidadIntercep = new JTextField();
+		ingresarProbabilidadIntercep.setBounds(327, 269, 292, 20);
+		frame.getContentPane().add(ingresarProbabilidadIntercep);
+		ingresarProbabilidadIntercep.setColumns(10);
+		peso = ingresarProbabilidadIntercep.getText();
 	}
 
 //--------------------------------------------------------------------------------------------------------	
 	public void labelPrimerEspia() {
-	JLabel lblNewLabel = new JLabel("ESPIA");
-	lblNewLabel.setBounds(251, 124, 40, 28);
-	frame.getContentPane().add(lblNewLabel);
+		JLabel labelEspiaUno = new JLabel("NOMBRE DE ESPIA:");
+		labelEspiaUno.setBounds(100, 123, 150, 28);
+		frame.getContentPane().add(labelEspiaUno);
 	}
 
 //--------------------------------------------------------------------------------------------------------	
 	
 	public void labelSegundoEspia() {
-	JLabel lblNewLabel_1 = new JLabel("ESPIA");
-	lblNewLabel_1.setBounds(251, 198, 46, 14);
-	frame.getContentPane().add(lblNewLabel_1);
+		JLabel labelEspiaDos = new JLabel("NOMBRE DE ESPIA:");
+		labelEspiaDos.setBounds(100, 197, 150, 14);
+		frame.getContentPane().add(labelEspiaDos);
 	}
 
 //--------------------------------------------------------------------------------------------------------	
 	
 	public void labelPeso() {
-	JLabel lblNewLabel_2 = new JLabel("PESO");
-	lblNewLabel_2.setBounds(251, 276, 46, 14);
-	frame.getContentPane().add(lblNewLabel_2);
+		JLabel label_Peso = new JLabel("PROBABILIDAD DE INTERCEPCIÓN:");
+		label_Peso.setBounds(100, 275, 300, 14);
+		frame.getContentPane().add(label_Peso);
 	}
 
 //--------------------------------------------------------------------------------------------------------	
 	
 	public void labelDefinirRelacion() {
-	JLabel lblNewLabel_3 = new JLabel("DEFINIR RELACION");
-	lblNewLabel_3.setFont(new Font("Arial Black", Font.PLAIN, 20));
-	lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-	lblNewLabel_3.setBounds(236, 45, 245, 28);
-	frame.getContentPane().add(lblNewLabel_3);
+		JLabel labelRelacion = new JLabel("DEFINIR RELACION");
+		labelRelacion.setFont(new Font("Arial Black", Font.PLAIN, 25));
+		labelRelacion.setHorizontalAlignment(SwingConstants.CENTER);
+		labelRelacion.setBounds(153, 11, 395, 67);
+		frame.getContentPane().add(labelRelacion);
 	}
 
 //--------------------------------------------------------------------------------------------------------
 	
 	public void botonCrearRelacion() {
-		JButton btnNewButton = new JButton("CREAR RELACION");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton botonRelacion = new JButton("CREAR RELACION");
+		
+		botonRelacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				primerEspia = textField.getText();
-				segundoEspia = textField_1.getText(); 
-				peso = textField_2.getText();         
+				primerEspia = ingresarEspiaUno.getText();
+				segundoEspia = ingresarEspiaDos.getText(); 
+				peso = ingresarProbabilidadIntercep.getText();
+								
+				if (primerEspia.isEmpty() || segundoEspia.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "Ingresar el nombre del espía", "ERROR EN INGRESO ESPIA", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 				
-				Aristas arista = new Aristas(Integer.parseInt(primerEspia), Integer.parseInt(segundoEspia), Double.parseDouble(peso));
-				aristaList.add(arista);
+				if (peso.isEmpty() ) {
+					JOptionPane.showMessageDialog(frame, "Ingresar peso", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
+					return;
+				} 
+				
+				try {
+					Double pesoFloat = Double.parseDouble(peso);
+	                if (pesoFloat > 1 || pesoFloat < 0) {
+	                    JOptionPane.showMessageDialog(frame, "El peso debe estar entre 0 y 1", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
+	                    return;
+	                }
+						Aristas arista = new Aristas(primerEspia, segundoEspia, pesoFloat);
+						aristaList.add(arista);
 
-				textField.setText("");
-				textField_1.setText("");
-				textField_2.setText("");
+						ingresarEspiaUno.setText("");
+						ingresarEspiaDos.setText("");
+						ingresarProbabilidadIntercep.setText("");
+						
+				} catch (NumberFormatException errorFloatPeso) {
+	                JOptionPane.showMessageDialog(frame, "Ingresar una probabilidad de intercepción en números del 0 al 1", "ERROR DE FORMATO", JOptionPane.ERROR_MESSAGE);
+
+				}
 			}
 		});
 
-		btnNewButton.setBounds(139, 358, 134, 23);
-		frame.getContentPane().add(btnNewButton);
+		botonRelacion.setBounds(100, 358, 134, 23);
+		frame.getContentPane().add(botonRelacion);
 	}
+	
 
 //--------------------------------------------------------------------------------------------------------
 	
 	public void botonCrearGrafo() {
-	    JButton btnNewButton_1 = new JButton("CREAR GRAFO");
-	    btnNewButton_1.addActionListener(new ActionListener() {
+	    JButton botonCrearGrafo = new JButton("CREAR GRAFO");
+	    botonCrearGrafo.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
 	 			 MostrarKruskal.main(null);	        }
 	    });
-	    btnNewButton_1.setBounds(485, 358, 134, 23);
-	    frame.getContentPane().add(btnNewButton_1);
+	    botonCrearGrafo.setBounds(485, 358, 134, 23);
+	    frame.getContentPane().add(botonCrearGrafo);
 	}
 	
 //--------------------------------------------------------------------------------------------------------		
@@ -131,6 +156,16 @@ public class Relaciones {
 
 //--------------------------------------------------------------------------------------------------------	
 	
+	public static void agregarArista(Aristas arista) {
+	    if (aristaList == null) {
+	        aristaList = new ArrayList<>();
+	    }
+	    aristaList.add(arista);
+	}
+
+	
+//--------------------------------------------------------------------------------------------------------	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -146,7 +181,7 @@ public class Relaciones {
 
 	
 	public Relaciones() {
-		initialize();
+	    initialize();
 	}
 
 	
@@ -159,7 +194,7 @@ public class Relaciones {
 		aristaList = new ArrayList<>();
 		ingresoPrimerEspia();
 		ingresoSegundoEspia();
-		ingresoPeso();
+		ingresoProbabilidadIntercepcion();
 		labelPrimerEspia();
 		labelSegundoEspia();
 		labelPeso();
