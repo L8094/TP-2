@@ -33,7 +33,7 @@ public class Relaciones {
 		ingresarEspiaUno.setBounds(327, 124, 292, 20);
 		frame.getContentPane().add(ingresarEspiaUno);
 		ingresarEspiaUno.setColumns(10);
-		primerEspia = ingresarEspiaUno.getText();
+		
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ public class Relaciones {
 		ingresarEspiaDos.setBounds(327, 191, 292, 20);
 		frame.getContentPane().add(ingresarEspiaDos);
 		ingresarEspiaDos.setColumns(10);
-		segundoEspia = ingresarEspiaDos.getText();
+		
 	}
 
 //--------------------------------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ public class Relaciones {
 		ingresarProbabilidadIntercep.setBounds(327, 269, 292, 20);
 		frame.getContentPane().add(ingresarProbabilidadIntercep);
 		ingresarProbabilidadIntercep.setColumns(10);
-		peso = ingresarProbabilidadIntercep.getText();
+		
 	}
 
 //--------------------------------------------------------------------------------------------------------	
@@ -101,7 +101,7 @@ public class Relaciones {
 				peso = ingresarProbabilidadIntercep.getText();
 								
 				if (primerEspia.isEmpty() || segundoEspia.isEmpty()) {
-					JOptionPane.showMessageDialog(frame, "Ingresar el nombre del espía", "ERROR EN INGRESO ESPIA", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Ingresar el nombre del espia", "ERROR EN INGRESO ESPIA", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				
@@ -124,7 +124,7 @@ public class Relaciones {
 						ingresarProbabilidadIntercep.setText("");
 						
 				} catch (NumberFormatException errorFloatPeso) {
-	                JOptionPane.showMessageDialog(frame, "Ingresar una probabilidad de intercepción en números del 0 al 1", "ERROR DE FORMATO", JOptionPane.ERROR_MESSAGE);
+	                JOptionPane.showMessageDialog(frame, "Ingresar una probabilidad de intercepcion en numeros del 0 al 1", "ERROR DE FORMATO", JOptionPane.ERROR_MESSAGE);
 
 				}
 			}
@@ -142,7 +142,7 @@ public class Relaciones {
 	    botonCrearGrafo.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
-	 			 MostrarKruskal.main(null);	        }
+	 			 CargarVertices.main(null);	        }
 	    });
 	    botonCrearGrafo.setBounds(485, 358, 134, 23);
 	    frame.getContentPane().add(botonCrearGrafo);
