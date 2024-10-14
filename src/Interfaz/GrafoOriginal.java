@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -17,7 +16,6 @@ import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import Logica.Aristas;
 import Logica.Grafo;
-import Logica.Kruskal;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -30,9 +28,9 @@ public class GrafoOriginal {
     private JPanel panelControles;
     private JMapViewer _mapa;
     private Random random = new Random();
-    private ArrayList<String> nombresVertices;
+    private static ArrayList<String> nombresVertices;
     private static List<Coordinate> lasCoord = new ArrayList<>();
-    
+    private static Grafo grafo;
 
 //--------------------------------------------------------------------------------------------------------
     
@@ -50,17 +48,13 @@ public class GrafoOriginal {
         return nombresVertices.size(); 
     }
 
-   
-
  //--------------------------------------------------------------------------------------------------------
     public void label() {
         
         JLabel lblNewLabel = new JLabel("Arbol generador minimo: ");
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel.setBounds(492, 46, 186, 55);
-        panelControles.add(lblNewLabel);
-        
-        
+        panelControles.add(lblNewLabel);          
         JButton Kruskal = new JButton("Kruskal");
         Kruskal.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
@@ -68,9 +62,7 @@ public class GrafoOriginal {
 	 			 GrafoKruskal.main(null);	        }
 	    });
         Kruskal.setBounds(528, 172, 113, 23);
-        panelControles.add(Kruskal);
-        
-        
+        panelControles.add(Kruskal);       
         JButton Prim = new JButton("Prim");
         Prim.setBounds(528, 298, 113, 23);
         Prim.addActionListener(new ActionListener() {
@@ -86,10 +78,8 @@ public class GrafoOriginal {
     
     private void cargarGrafo() {
         List<Aristas> listAristas = Relaciones.getListAristas();
-        
         int cantNodos = cantidadNodos(listAristas);
-        Grafo grafo = new Grafo(cantNodos);
-
+        grafo = new Grafo(cantNodos);
         for (Aristas arista : listAristas) {
             grafo.agregarArista(arista);
         }
@@ -111,12 +101,10 @@ public class GrafoOriginal {
    //--------------------------------------------------------------------------------------------------------
     
     private void dibujarVertices(int cantidadVertices) {
-        
         double latMin = -69.52;
         double latMax = -66.35;
         double lonMin = -87.25;
-        double lonMax = -78.77;
-   
+        double lonMax = -78.77; 
         for (int i = 0; i < cantidadVertices; i++) {
             double lat = latMin + (latMax - latMin) * random.nextDouble();
             double lon = lonMin + (lonMax - lonMin) * random.nextDouble();
@@ -129,39 +117,44 @@ public class GrafoOriginal {
 
 //--------------------------------------------------------------------------------------------------------
   
-  
     private void dibujarAristas(List<Aristas> listaAristas, Color C ) {
-        
-
         for (Aristas arista : listaAristas) {
             int inicioIndex = nombresVertices.indexOf(arista.getInicio());
             int finIndex = nombresVertices.indexOf(arista.getFin());
-            
-            // Solo procede si ambos �ndices son v�lidos.
             if (inicioIndex != -1 && finIndex != -1) {
                 Coordinate inicioCoord = lasCoord.get(inicioIndex);
                 Coordinate finCoord = lasCoord.get(finIndex);
-
                 List<Coordinate> coordenadas = new ArrayList<>();
-                coordenadas.add(inicioCoord); // Punto de inicio
-                coordenadas.add(finCoord);    // Punto final
+                coordenadas.add(inicioCoord); 
+                coordenadas.add(finCoord);    
                 coordenadas.add(inicioCoord);
-
-                // Crea el pol�gono (arista) y agrega al mapa
                 MapPolygonImpl lineaArista = new MapPolygonImpl(coordenadas);
 				lineaArista.setColor(C);
-                _mapa.addMapPolygon(lineaArista); // Dibuja la arista en el mapa
+                _mapa.addMapPolygon(lineaArista); 
             }
         }
     }
   
-//--------------------------------------------------------------------------------------------------------
-   public static List<Coordinate> getcoord(){
+
+    //--------------------------------------------------------------------------------------------------------
+ 
+    public static List<Coordinate> getcoord(){
 	   return lasCoord;
    }
  
- //--------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------
    
+   public static Grafo getGrafo() {
+		return grafo;
+	}
+ 
+   //--------------------------------------------------------------------------------------------------------
+ 
+   public static List<String> getNombresVertices() {
+	    return nombresVertices;
+	}
+
+ //--------------------------------------------------------------------------------------------------------
     public static void main(String[] args) {
     	 EventQueue.invokeLater(new Runnable() {
              public void run() {
@@ -208,4 +201,8 @@ public class GrafoOriginal {
         label();
         
     }
+
+
+
+	
 }

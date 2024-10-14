@@ -5,22 +5,17 @@ package Interfaz;
 	import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
 	import java.util.ArrayList;
-	import java.util.Arrays;
 	import java.util.List;
-	import java.util.Random;
-	import javax.swing.JFrame;
-	import javax.swing.JOptionPane;
+	import javax.swing.JFrame;	
 	import javax.swing.JPanel;
 	import javax.swing.JTextArea;
 	import org.openstreetmap.gui.jmapviewer.Coordinate;
 	import org.openstreetmap.gui.jmapviewer.JMapViewer;
 	import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 	import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
-
 	import Logica.Aristas;
 	import Logica.Grafo;
-	import Logica.Kruskal;
-import Logica.Prim;
+	import Logica.Prim;
 
 import javax.swing.JButton;
 
@@ -35,22 +30,6 @@ import javax.swing.JButton;
 	    private ArrayList<String> nombresVertices;
 	    private List<Coordinate> lasCoord = new ArrayList<>();
 	    
-
-	    //--------------------------------------------------------------------------------------------------------
-	    private int cantidadNodos(List<Aristas> listAristas) {
-	        for (Aristas arista : listAristas) {
-	            String inicio = arista.getInicio();
-	            String fin = arista.getFin();
-	            if (!nombresVertices.contains(inicio)) {
-	                nombresVertices.add(inicio);
-	            }
-	            if (!nombresVertices.contains(fin)) {
-	                nombresVertices.add(fin);
-	            }
-	        }
-	        return nombresVertices.size(); 
-	    }
-
 	    //--------------------------------------------------------------------------------------------------------
 	    public void mostrarAGM(List<Aristas> agm) {
 	        StringBuilder sb = new StringBuilder();
@@ -82,36 +61,21 @@ import javax.swing.JButton;
 
 	   //--------------------------------------------------------------------------------------------------------
 	    private void cargarGrafo() {
+	    	Grafo grafo = GrafoOriginal.getGrafo();
 	        List<Aristas> listAristas = Relaciones.getListAristas();
-	        
-	        int cantNodos = cantidadNodos(listAristas);
-	        Grafo grafo = new Grafo(cantNodos);
-
-	        for (Aristas arista : listAristas) {
-	            grafo.agregarArista(arista);
-	        }
-	//ver cuanto tiempo tarda en crear el grafo: 
+	        nombresVertices = new ArrayList<>(GrafoOriginal.getNombresVertices());
 	        Prim prim = new Prim(grafo);
-	        List<Aristas> agm = prim.encontrarAGM();
-	        
-	        if (agm == null) {
-	            JOptionPane.showMessageDialog(frame, "El grafo original no es conexo", "ERROR INGRESANDO GRAFO - NO CONEXO", JOptionPane.WARNING_MESSAGE);        
-	            
-	            Relaciones.main(null);
-	           
-	            return;
-	        }
-	        
+	        List<Aristas> agm = prim.encontrarAGM();  
 	        initialize();  
 	        frame.setVisible(true);  
-	        
 	        mostrarAGM(agm);
 	        dibujarVertices();
 	        dibujarAristas(listAristas, Color.RED);
 	        dibujarAristas(agm, Color.GREEN);
 	    }
 
-	   //--------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------
 	    private void dibujarVertices() {
 	        List<Coordinate> coordenadas = GrafoOriginal.getcoord();
 	        lasCoord.addAll(coordenadas);
@@ -121,26 +85,19 @@ import javax.swing.JButton;
 	            _mapa.addMapMarker(new MapMarkerDot(nombre, coord));
 	    }
 	    }
-	   
+//--------------------------------------------------------------------------------------------------------
 	    
 	    private void dibujarAristas(List<Aristas> listaAristas, Color C ) {
-	        
-
 	        for (Aristas arista : listaAristas) {
 	            int inicioIndex = nombresVertices.indexOf(arista.getInicio());
 	            int finIndex = nombresVertices.indexOf(arista.getFin());
-	            
-	            // Solo procede si ambos �ndices son v�lidos.
 	            if (inicioIndex != -1 && finIndex != -1) {
 	                Coordinate inicioCoord = lasCoord.get(inicioIndex);
 	                Coordinate finCoord = lasCoord.get(finIndex);
-
 	                List<Coordinate> coordenadas = new ArrayList<>();
-	                coordenadas.add(inicioCoord); // Punto de inicio
-	                coordenadas.add(finCoord);    // Punto final
+	                coordenadas.add(inicioCoord); 
+	                coordenadas.add(finCoord);    
 	                coordenadas.add(inicioCoord);
-
-	               
 	                MapPolygonImpl lineaArista = new MapPolygonImpl(coordenadas);
 					lineaArista.setColor(C);
 	                _mapa.addMapPolygon(lineaArista); 
@@ -148,9 +105,7 @@ import javax.swing.JButton;
 	        }
 	    }
 	    
-	    
-	    
-	   //--------------------------------------------------------------------------------------------------------   
+//--------------------------------------------------------------------------------------------------------   
 	    
 	    public static void main(String[] args) {
 	    	 EventQueue.invokeLater(new Runnable() {

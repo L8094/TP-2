@@ -23,7 +23,6 @@ public class Relaciones {
 	private JTextField ingresarProbabilidadIntercep;
 	private String primerEspia;
 	private String segundoEspia;
-	
 	private String peso;
 	private static ArrayList<Aristas> aristaList;
 	
@@ -81,39 +80,8 @@ public class Relaciones {
 
 		botonRelacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				primerEspia = ingresarEspiaUno.getText();
-				segundoEspia = ingresarEspiaDos.getText(); 
-				peso = ingresarProbabilidadIntercep.getText();
-					
-				if (primerEspia.isEmpty() || segundoEspia.isEmpty()) {
-					JOptionPane.showMessageDialog(frame, "Ingresar el nombre del espia", "ERROR EN INGRESO ESPIA", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-				if (peso.isEmpty() ) {
-					JOptionPane.showMessageDialog(frame, "Ingresar peso", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
-					return;
-				} 
-				
-				try {
-					Double pesoFloat = Double.parseDouble(peso);
-	                if (pesoFloat > 1 || pesoFloat < 0) {
-	                    JOptionPane.showMessageDialog(frame, "El peso debe estar entre 0 y 1", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
-	                    return;
-	                }
-						Aristas arista = new Aristas(primerEspia, segundoEspia, pesoFloat);
-						aristaList.add(arista);
-
-						ingresarEspiaUno.setText("");
-						ingresarEspiaDos.setText("");
-						ingresarProbabilidadIntercep.setText("");
-						
-				} catch (NumberFormatException errorFloatPeso) {
-	                JOptionPane.showMessageDialog(frame, "Ingresar una probabilidad de intercepcion en numeros del 0 al 1", "ERROR DE FORMATO", JOptionPane.ERROR_MESSAGE);
-
-				}
-			}
-		});
+				guardarDatos();
+		}});
 
 		botonRelacion.setBounds(100, 358, 134, 23);
 		frame.getContentPane().add(botonRelacion);
@@ -124,23 +92,72 @@ public class Relaciones {
 	    JButton botonCrearGrafo = new JButton("CREAR GRAFO");
 	    botonCrearGrafo.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	             frame.setVisible(false);
-	 			 GrafoOriginal.main(null);	        }
-	    });
+	            verificarLista(); 
+	    }});
 	    botonCrearGrafo.setBounds(485, 358, 134, 23);
 	    frame.getContentPane().add(botonCrearGrafo);
 	}
 		
 //--------------------------------------------------------------------------------------------------------		
-	public static List<Aristas> getListAristas(){
-		return aristaList;
+	
+	private void guardarDatos() {
+		primerEspia = ingresarEspiaUno.getText();
+		segundoEspia = ingresarEspiaDos.getText(); 
+		peso = ingresarProbabilidadIntercep.getText();
+			
+		if (primerEspia.isEmpty() || segundoEspia.isEmpty()) {
+			JOptionPane.showMessageDialog(frame, "Ingresar el nombre del espia", "ERROR EN INGRESO ESPIA", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		if (peso.isEmpty() ) {
+			JOptionPane.showMessageDialog(frame, "Ingresar peso", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
+			return;
+		} 
+		
+		try {
+			Double pesoFloat = Double.parseDouble(peso);
+            if (pesoFloat > 1 || pesoFloat < 0) {
+                JOptionPane.showMessageDialog(frame, "El peso debe estar entre 0 y 1", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+				Aristas arista = new Aristas(primerEspia, segundoEspia, pesoFloat);
+				aristaList.add(arista);
+
+				ingresarEspiaUno.setText("");
+				ingresarEspiaDos.setText("");
+				ingresarProbabilidadIntercep.setText("");
+				
+		} catch (NumberFormatException errorFloatPeso) {
+            JOptionPane.showMessageDialog(frame, "Ingresar una probabilidad de intercepcion en numeros del 0 al 1", "ERROR DE FORMATO", JOptionPane.ERROR_MESSAGE);
+
+		}
 	}
+			
+//--------------------------------------------------------------------------------------------------------
+
+	public void verificarLista() {
+		if( aristaList.isEmpty()) {
+			JOptionPane.showMessageDialog(frame, "Lista vacia", "ERROR GRAFO VACIO, CREAR RELACION", JOptionPane.WARNING_MESSAGE);
+		}else {
+	    	frame.setVisible(false);
+        	GrafoOriginal.main(null);
+        	}
+		}
+	
+	
 //--------------------------------------------------------------------------------------------------------	
 		public static void agregarArista(Aristas arista) {
 	    if (aristaList == null) {
 	        aristaList = new ArrayList<>();
 	    }
 	    aristaList.add(arista);
+	}
+		
+//--------------------------------------------------------------------------------------------------------	
+		
+		public static List<Aristas> getListAristas(){
+		return aristaList;
 	}
 //--------------------------------------------------------------------------------------------------------	
 
