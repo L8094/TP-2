@@ -62,7 +62,7 @@ public class Relaciones {
 	}
 //--------------------------------------------------------------------------------------------------------	
 	public void labelPeso() {
-		JLabel label_Peso = new JLabel("PROBABILIDAD DE INTERCEPCIÓN:");
+		JLabel label_Peso = new JLabel("PROBABILIDAD DE INTERCEPCIï¿½N:");
 		label_Peso.setBounds(100, 275, 300, 14);
 		frame.getContentPane().add(label_Peso);
 	}
@@ -125,7 +125,7 @@ public class Relaciones {
 	    botonCrearGrafo.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
-	 			 GrafoInterfaz.main(null);	        }
+	 			 GrafoOriginal.main(null);	        }
 	    });
 	    botonCrearGrafo.setBounds(485, 358, 134, 23);
 	    frame.getContentPane().add(botonCrearGrafo);

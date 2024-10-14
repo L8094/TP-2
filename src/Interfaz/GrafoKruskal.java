@@ -23,7 +23,6 @@ import Logica.Kruskal;
 import javax.swing.JButton;
 
 
-
 public class GrafoKruskal {
 
     private JFrame frame;
@@ -73,7 +72,7 @@ public class GrafoKruskal {
         grafoInterfaz.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
-	 			 GrafoInterfaz.frame.setVisible(true);	        }
+	 			 GrafoOriginal.frame.setVisible(true);	        }
 	    });
         grafoInterfaz.setBounds(524, 376, 148, 23);
         panelControles.add(grafoInterfaz);
@@ -112,7 +111,7 @@ public class GrafoKruskal {
 
    //--------------------------------------------------------------------------------------------------------
     private void dibujarVertices() {
-        List<Coordinate> coordenadas = GrafoInterfaz.getcoord();
+        List<Coordinate> coordenadas = GrafoOriginal.getcoord();
         lasCoord.addAll(coordenadas);
         for (int i = 0; i < nombresVertices.size(); i++) {
             String nombre = nombresVertices.get(i);
@@ -129,7 +128,7 @@ public class GrafoKruskal {
             int inicioIndex = nombresVertices.indexOf(arista.getInicio());
             int finIndex = nombresVertices.indexOf(arista.getFin());
             
-            // Solo procede si ambos índices son válidos.
+            // Solo procede si ambos ï¿½ndices son vï¿½lidos.
             if (inicioIndex != -1 && finIndex != -1) {
                 Coordinate inicioCoord = lasCoord.get(inicioIndex);
                 Coordinate finCoord = lasCoord.get(finIndex);

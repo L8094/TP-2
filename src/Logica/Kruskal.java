@@ -16,7 +16,7 @@ public class Kruskal {
 
         ordenarAristasPorPeso(aristas);
         for (Aristas arista : aristas) {
-            if (!formaCiclo(arista, agm)) {
+            if (!Grafo.formaCiclo(arista, agm)) {
                 agm.add(arista);
             }
         }
@@ -40,14 +40,7 @@ public class Kruskal {
    
 
     //--------------------------------------------------------------------------------------------------------
-    public boolean formaCiclo(Aristas arista, List<Aristas> agm) {
-        String inicio = arista.getInicio();
-        String fin = arista.getFin();
-        
-        Set<String> visitados = new HashSet<>();
-       return Bfs.bfs(inicio, visitados, agm, fin);
-        
-    }
+
 
    
    

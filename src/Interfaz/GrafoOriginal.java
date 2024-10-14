@@ -23,8 +23,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 
-
-public class GrafoInterfaz {
+public class GrafoOriginal {
 
     static JFrame frame;
     private JPanel panelMapa;
@@ -51,7 +50,6 @@ public class GrafoInterfaz {
         return nombresVertices.size(); 
     }
 
-    
    
 
  //--------------------------------------------------------------------------------------------------------
@@ -78,6 +76,7 @@ public class GrafoInterfaz {
         Prim.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
+	             GrafoPrim.main(null);
 	 			 	        }
 	    });
         panelControles.add(Prim);
@@ -128,7 +127,8 @@ public class GrafoInterfaz {
         }
     }
 
-   
+//--------------------------------------------------------------------------------------------------------
+  
   
     private void dibujarAristas(List<Aristas> listaAristas, Color C ) {
         
@@ -137,7 +137,7 @@ public class GrafoInterfaz {
             int inicioIndex = nombresVertices.indexOf(arista.getInicio());
             int finIndex = nombresVertices.indexOf(arista.getFin());
             
-            // Solo procede si ambos índices son válidos.
+            // Solo procede si ambos ï¿½ndices son vï¿½lidos.
             if (inicioIndex != -1 && finIndex != -1) {
                 Coordinate inicioCoord = lasCoord.get(inicioIndex);
                 Coordinate finCoord = lasCoord.get(finIndex);
@@ -147,7 +147,7 @@ public class GrafoInterfaz {
                 coordenadas.add(finCoord);    // Punto final
                 coordenadas.add(inicioCoord);
 
-                // Crea el polígono (arista) y agrega al mapa
+                // Crea el polï¿½gono (arista) y agrega al mapa
                 MapPolygonImpl lineaArista = new MapPolygonImpl(coordenadas);
 				lineaArista.setColor(C);
                 _mapa.addMapPolygon(lineaArista); // Dibuja la arista en el mapa
@@ -166,7 +166,7 @@ public class GrafoInterfaz {
     	 EventQueue.invokeLater(new Runnable() {
              public void run() {
                  try {
-                     GrafoInterfaz window = new GrafoInterfaz();
+                     GrafoOriginal window = new GrafoOriginal();
                  } catch (Exception e) {
                      e.printStackTrace();
                  }
@@ -177,7 +177,7 @@ public class GrafoInterfaz {
  //--------------------------------------------------------------------------------------------------------   
 
    
-    public GrafoInterfaz() {
+    public GrafoOriginal() {
         nombresVertices = new ArrayList<>(); 
        
         cargarGrafo();

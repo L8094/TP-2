@@ -91,4 +91,16 @@ import java.util.Set;
         Bfs.bfs(inicio, visitados, listAristas, null);
         return visitados.size() == Grafo.getCantVertices();
     }
+    
+//--------------------------------------------------------------------------------------------------------	
+   
+    public static boolean formaCiclo(Aristas arista, List<Aristas> agm) {
+        String inicio = arista.getInicio();
+        String fin = arista.getFin();
+        
+        Set<String> visitados = new HashSet<>();
+       return Bfs.bfs(inicio, visitados, agm, fin);
+        
+    }
+    
    }
