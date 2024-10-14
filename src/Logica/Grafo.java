@@ -7,20 +7,41 @@ import java.util.Set;
 
 	public class Grafo {
 		    private List<Aristas> aristas;
-		    private int numeroDeVertices;
+		    private static int numeroDeVertices;
 		    
 //--------------------------------------------------------------------------------------------------------	
 			
 		    public Grafo(int numeroDeNodos) {
-		        this.numeroDeVertices = numeroDeNodos;
+		        Grafo.numeroDeVertices = numeroDeNodos;
 		        this.aristas = new ArrayList<>();
 		    }
 
 //--------------------------------------------------------------------------------------------------------	
-			
-		    public void agregarArista(Aristas arista) {
-		        aristas.add(arista);
-		    }
+		    	 public void agregarArista(Aristas arista) {
+		                if (arista.getPeso() < 0) {
+		                    throw new IllegalArgumentException("El peso no puede ser negativo");
+		                }
+		                if(verificarArista(arista)== false) {
+		                    throw new IllegalArgumentException("No se pueden repetir aristas");
+		                }
+		                else { 
+		                    aristas.add(arista);
+		                }
+
+
+		            }
+		    	 
+//--------------------------------------------------------------------------------------------------------
+
+		    	 private boolean verificarArista(Aristas arista) {
+		            for(Aristas ar : aristas){
+		                if(arista.getInicio().equals(ar.getInicio()) && arista.getFin().equals(ar.getFin())) {
+		                    return false;
+		                }
+		            }
+		            return true;
+
+		        }
 	
 //--------------------------------------------------------------------------------------------------------	
 			
@@ -30,7 +51,7 @@ import java.util.Set;
 
 //--------------------------------------------------------------------------------------------------------	
 					    
-		    public int getCantVertices() {
+		    public static int getCantVertices() {
 		        return numeroDeVertices;
 		    }
 		    
@@ -60,5 +81,14 @@ import java.util.Set;
         }
 
         return vecinos;
+    }
+    
+  //--------------------------------------------------------------------------------------------------------	
+
+    public static boolean esConexo(List<Aristas> listAristas) {
+        Set<String> visitados = new HashSet<>();
+        String inicio = listAristas.get(0).getInicio();
+        Bfs.bfs(inicio, visitados, listAristas, null);
+        return visitados.size() == Grafo.getCantVertices();
     }
    }

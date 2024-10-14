@@ -8,82 +8,47 @@ public class Kruskal {
     public Kruskal(Grafo grafo) {
         this.grafo = grafo;
     }
-//--------------------------------------------------------------------------------------------------------	
-	    
+
+    //--------------------------------------------------------------------------------------------------------	
     public List<Aristas> encontrarAGM() {
         List<Aristas> agm = new ArrayList<>();
         List<Aristas> aristas = new ArrayList<>(grafo.getAristas());
- 
+
         ordenarAristasPorPeso(aristas);
         for (Aristas arista : aristas) {
             if (!formaCiclo(arista, agm)) {
                 agm.add(arista);
             }
         }
-        return agm;
+        return Grafo.esConexo(agm) ? agm : null;
     }
-    
-//--------------------------------------------------------------------------------------------------------	
+
+    //--------------------------------------------------------------------------------------------------------	
     public List<Aristas> ordenarAristasPorPeso(List<Aristas> aristas) {
-            int n = aristas.size();
-            for (int i = 0; i < n - 1; i++) {
-            	int indiceMinimo = i;
-                for (int j = i + 1; j < n; j++) {
-                    if (aristas.get(j).getPeso() < aristas.get(indiceMinimo).getPeso()) {
-                        indiceMinimo = j;
-                    }
+        int n = aristas.size();
+        for (int i = 0; i < n - 1; i++) {
+            int indiceMinimo = i;
+            for (int j = i + 1; j < n; j++) {
+                if (aristas.get(j).getPeso() < aristas.get(indiceMinimo).getPeso()) {
+                    indiceMinimo = j;
                 }
-                Aristas temporal = aristas.get(i);  
-                aristas.set(i, aristas.get(indiceMinimo));
-                aristas.set(indiceMinimo, temporal);
             }
-            return aristas;
+            Collections.swap(aristas, i, indiceMinimo);
         }
-    
-//--------------------------------------------------------------------------------------------------------		
-    // Verificar si una arista forma un ciclo usando BFS
+        return aristas;
+    }	
+   
+
+    //--------------------------------------------------------------------------------------------------------
     public boolean formaCiclo(Aristas arista, List<Aristas> agm) {
         String inicio = arista.getInicio();
         String fin = arista.getFin();
         
-        // Mapear conexiones de los nodos ya en el MST
-        Map<String, List<String>> adyacencias = new HashMap<>();
-        for (Aristas a : agm) {
-            // Asegurar que 'inicio' tenga una lista de adyacencias
-            if (!adyacencias.containsKey(a.getInicio())) {
-                adyacencias.put(a.getInicio(), new ArrayList<>());
-            }
-            // Asegurar que 'fin' tenga una lista de adyacencias
-            if (!adyacencias.containsKey(a.getFin())) {
-                adyacencias.put(a.getFin(), new ArrayList<>());
-            }
-            
-            // Agregar conexiones bidireccionales
-            adyacencias.get(a.getInicio()).add(a.getFin());
-            adyacencias.get(a.getFin()).add(a.getInicio());
-        }
-        
-        
-        // BFS para detectar ciclos entre inicio y fin
-        Queue<String> queue = new LinkedList<>();
         Set<String> visitados = new HashSet<>();
+       return Bfs.bfs(inicio, visitados, agm, fin);
         
-        queue.add(inicio);
-        visitados.add(inicio);
-
-        while (!queue.isEmpty()) {
-            String nodo = queue.poll();
-            for (String vecino : adyacencias.getOrDefault(nodo, new ArrayList<>())) {
-                if (vecino.equals(fin)) {
-                    return true;
-                }
-                if (!visitados.contains(vecino)) {
-                    visitados.add(vecino);
-                    queue.add(vecino);
-                }
-            }
-        }
-        return false;
     }
-}
 
+   
+   
+}

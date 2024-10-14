@@ -27,79 +27,64 @@ public class Relaciones {
 	private String peso;
 	private static ArrayList<Aristas> aristaList;
 	
-
+//--------------------------------------------------------------------------------------------------------
 	public void ingresoPrimerEspia() {
 		ingresarEspiaUno = new JTextField();
 		ingresarEspiaUno.setBounds(327, 124, 292, 20);
 		frame.getContentPane().add(ingresarEspiaUno);
 		ingresarEspiaUno.setColumns(10);
-		
 	}
-	
 //--------------------------------------------------------------------------------------------------------
-	
 	public void ingresoSegundoEspia() {
 		ingresarEspiaDos = new JTextField();
 		ingresarEspiaDos.setBounds(327, 191, 292, 20);
 		frame.getContentPane().add(ingresarEspiaDos);
 		ingresarEspiaDos.setColumns(10);
-		
 	}
-
 //--------------------------------------------------------------------------------------------------------
-
 	public void ingresoProbabilidadIntercepcion() {
 		ingresarProbabilidadIntercep = new JTextField();
 		ingresarProbabilidadIntercep.setBounds(327, 269, 292, 20);
 		frame.getContentPane().add(ingresarProbabilidadIntercep);
-		ingresarProbabilidadIntercep.setColumns(10);
-		
+		ingresarProbabilidadIntercep.setColumns(10);	
 	}
-
 //--------------------------------------------------------------------------------------------------------	
 	public void labelPrimerEspia() {
 		JLabel labelEspiaUno = new JLabel("NOMBRE DE ESPIA:");
 		labelEspiaUno.setBounds(100, 123, 150, 28);
 		frame.getContentPane().add(labelEspiaUno);
 	}
-
 //--------------------------------------------------------------------------------------------------------	
-	
 	public void labelSegundoEspia() {
 		JLabel labelEspiaDos = new JLabel("NOMBRE DE ESPIA:");
 		labelEspiaDos.setBounds(100, 197, 150, 14);
 		frame.getContentPane().add(labelEspiaDos);
 	}
-
 //--------------------------------------------------------------------------------------------------------	
-	
 	public void labelPeso() {
-		JLabel label_Peso = new JLabel("PROBABILIDAD DE INTERCEPCIÃ“N:");
+		JLabel label_Peso = new JLabel("PROBABILIDAD DE INTERCEPCIÓN:");
 		label_Peso.setBounds(100, 275, 300, 14);
 		frame.getContentPane().add(label_Peso);
 	}
-
 //--------------------------------------------------------------------------------------------------------	
-	
-	public void labelDefinirRelacion() {
+		public void labelDefinirRelacion() {
 		JLabel labelRelacion = new JLabel("DEFINIR RELACION");
 		labelRelacion.setFont(new Font("Arial Black", Font.PLAIN, 25));
 		labelRelacion.setHorizontalAlignment(SwingConstants.CENTER);
 		labelRelacion.setBounds(153, 11, 395, 67);
 		frame.getContentPane().add(labelRelacion);
 	}
-
 //--------------------------------------------------------------------------------------------------------
 	
 	public void botonCrearRelacion() {
 		JButton botonRelacion = new JButton("CREAR RELACION");
-		
+
 		botonRelacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				primerEspia = ingresarEspiaUno.getText();
 				segundoEspia = ingresarEspiaDos.getText(); 
 				peso = ingresarProbabilidadIntercep.getText();
-								
+					
 				if (primerEspia.isEmpty() || segundoEspia.isEmpty()) {
 					JOptionPane.showMessageDialog(frame, "Ingresar el nombre del espia", "ERROR EN INGRESO ESPIA", JOptionPane.WARNING_MESSAGE);
 					return;
@@ -134,36 +119,29 @@ public class Relaciones {
 		frame.getContentPane().add(botonRelacion);
 	}
 	
-
 //--------------------------------------------------------------------------------------------------------
-	
-	public void botonCrearGrafo() {
+		public void botonCrearGrafo() {
 	    JButton botonCrearGrafo = new JButton("CREAR GRAFO");
 	    botonCrearGrafo.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
-	 			 CargarVertices.main(null);	        }
+	 			 GrafoInterfaz.main(null);	        }
 	    });
 	    botonCrearGrafo.setBounds(485, 358, 134, 23);
 	    frame.getContentPane().add(botonCrearGrafo);
 	}
-	
+		
 //--------------------------------------------------------------------------------------------------------		
-
 	public static List<Aristas> getListAristas(){
 		return aristaList;
 	}
-
 //--------------------------------------------------------------------------------------------------------	
-	
-	public static void agregarArista(Aristas arista) {
+		public static void agregarArista(Aristas arista) {
 	    if (aristaList == null) {
 	        aristaList = new ArrayList<>();
 	    }
 	    aristaList.add(arista);
 	}
-
-	
 //--------------------------------------------------------------------------------------------------------	
 
 	public static void main(String[] args) {
@@ -179,10 +157,12 @@ public class Relaciones {
 		});
 	}
 
-	
+//--------------------------------------------------------------------------------------------------------	
+
 	public Relaciones() {
 	    initialize();
 	}
+//--------------------------------------------------------------------------------------------------------	
 
 	
 	private void initialize() {
@@ -202,4 +182,5 @@ public class Relaciones {
 		botonCrearRelacion();
 		botonCrearGrafo ();
 	}
+
 }
