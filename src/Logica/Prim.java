@@ -20,8 +20,8 @@ public class Prim {
 
     public List<Aristas> encontrarAGM() {
         List<Aristas> aristasDeAgm = new ArrayList<>();
-
         visitados = new HashSet<>();
+        if(grafo.getAristas().size()>0) {
         String verticeInicial = grafo.getAristas().get(0).getInicio(); 
         visitados.add(verticeInicial); 
         while (visitados.size() < Grafo.getCantVertices()) {
@@ -33,6 +33,12 @@ public class Prim {
             }
         }
          return Grafo.esConexo(aristasDeAgm) ? aristasDeAgm : null; 
+        }
+        else {
+        	return null;
+        }
+        
+        
     }
    
 //--------------------------------------------------------------------------------------------------------	

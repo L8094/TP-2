@@ -55,6 +55,11 @@ import java.util.Set;
 		        return numeroDeVertices;
 		    }
 		    
+		    public int cantVertices() {
+		    	return this.numeroDeVertices;
+		    }
+		    
+		    
 //--------------------------------------------------------------------------------------------------------	
 			
 		    public void mostrarGrafo() {
@@ -86,6 +91,9 @@ import java.util.Set;
   //--------------------------------------------------------------------------------------------------------	
 
     public static boolean esConexo(List<Aristas> listAristas) {
+    	if(listAristas.size()==0) {
+    		return false;
+    	}
         Set<String> visitados = new HashSet<>();
         String inicio = listAristas.get(0).getInicio();
         Bfs.bfs(inicio, visitados, listAristas, null);
