@@ -116,8 +116,8 @@ public class Relaciones {
 	    frame.getContentPane().add(botonCrearGrafo);
 	    
 	    JLabel fondoRelaciones = new JLabel("");
-	    fondoRelaciones.setIcon(new ImageIcon(Relaciones.class.getResource("/Imagenes/fondoRelaciones.jpg")));
 	    fondoRelaciones.setBounds(0, 0, 734, 461);
+	    fondoRelaciones.setIcon(new ImageIcon(Relaciones.class.getResource("/Imagenes/afondoRelaciones.jpg")));
 	    frame.getContentPane().add(fondoRelaciones);
 	}
 		
