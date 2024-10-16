@@ -6,8 +6,9 @@ package Interfaz;
 	import java.awt.event.ActionListener;
 	import java.util.ArrayList;
 	import java.util.List;
-	import javax.swing.JFrame;	
-	import javax.swing.JPanel;
+	import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 	import javax.swing.JTextArea;
 	import org.openstreetmap.gui.jmapviewer.Coordinate;
 	import org.openstreetmap.gui.jmapviewer.JMapViewer;
@@ -17,6 +18,7 @@ package Interfaz;
 	import Logica.Grafo;
 	import Logica.Prim;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 
@@ -30,6 +32,7 @@ import javax.swing.JButton;
 	    private ArrayList<String> nombresVertices;
 	    private List<Coordinate> lasCoord = new ArrayList<>();
 	    
+	    
 	    //--------------------------------------------------------------------------------------------------------
 	    public void mostrarAGM(List<Aristas> agm) {
 	        StringBuilder sb = new StringBuilder();
@@ -39,6 +42,7 @@ import javax.swing.JButton;
 	              .append(", Fin: ").append(arista.getFin())
 	              .append(", Peso: ").append(arista.getPeso()).append("\n");
 	        }
+	        
 	        textArea.setText(sb.toString());
 	    }
 
@@ -58,13 +62,18 @@ import javax.swing.JButton;
 	        grafoInterfaz.setBounds(524, 376, 148, 23);
 	        panelControles.add(grafoInterfaz);
 	    }
-
+	    
+	    
+	   
 	   //--------------------------------------------------------------------------------------------------------
 	    private void cargarGrafo() {
 	    	Grafo grafo = GrafoOriginal.getGrafo();
 	        List<Aristas> listAristas = Relaciones.getListAristas();
 	        nombresVertices = new ArrayList<>(GrafoOriginal.getNombresVertices());
+	        
 	        Prim prim = new Prim(grafo);
+	        
+	        
 	        List<Aristas> agm = prim.encontrarAGM();  
 	        initialize();  
 	        frame.setVisible(true);  
@@ -146,7 +155,7 @@ import javax.swing.JButton;
 	        _mapa = new JMapViewer();
 	        _mapa.setDisplayPosition(new Coordinate(-68, -83), 6);
 	        _mapa.setZoomContolsVisible(false);
-
+	  
 	        panelMapa.add(_mapa);
 	        label();
 	        

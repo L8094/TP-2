@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -18,17 +19,20 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Relaciones {
 	
 	private JFrame frame;
 	private JTextField ingresarEspiaUno;
 	private JTextField ingresarEspiaDos;
-	private JTextField ingresarProbabilidadIntercep;
+	private JSlider sliderProbabilidadIntercep;
 	private String primerEspia;
 	private String segundoEspia;
-	private String peso;
+	private double peso;
 	private static ArrayList<Aristas> aristaList;
+	private double probabilidad;
 	
 //--------------------------------------------------------------------------------------------------------
 	public void ingresoPrimerEspia() {
@@ -48,12 +52,22 @@ public class Relaciones {
 	}
 //--------------------------------------------------------------------------------------------------------
 	public void ingresoProbabilidadIntercepcion() {
-		ingresarProbabilidadIntercep = new JTextField();
-		ingresarProbabilidadIntercep.setBackground(UIManager.getColor("Button.background"));
-		ingresarProbabilidadIntercep.setBounds(327, 269, 292, 20);
-		frame.getContentPane().add(ingresarProbabilidadIntercep);
-		ingresarProbabilidadIntercep.setColumns(10);	
+	    sliderProbabilidadIntercep = new JSlider(0, 10);
+	    sliderProbabilidadIntercep.setBounds(327, 258, 292, 45);
+	    sliderProbabilidadIntercep.setBackground(UIManager.getColor("Button.background"));
+	    sliderProbabilidadIntercep.setPaintLabels(true);
+	    sliderProbabilidadIntercep.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	        probabilidad = sliderProbabilidadIntercep.getValue() / 10.0;
+	            System.out.println("Probabilidad de Intercepción: " + probabilidad);
+	        }
+	    });
+	    sliderProbabilidadIntercep.setValue(0);
+	    frame.getContentPane().add(sliderProbabilidadIntercep);
 	}
+
+
+	
 //--------------------------------------------------------------------------------------------------------	
 	public void labelPrimerEspia() {
 		JLabel labelEspiaUno = new JLabel("NOMBRE DE ESPIA:");
@@ -126,42 +140,29 @@ public class Relaciones {
 	private void guardarDatos() {
 		primerEspia = ingresarEspiaUno.getText();
 		segundoEspia = ingresarEspiaDos.getText(); 
-		peso = ingresarProbabilidadIntercep.getText();
+		peso = probabilidad;
 			
 		if (primerEspia.isEmpty() || segundoEspia.isEmpty()) {
 			JOptionPane.showMessageDialog(frame, "Ingresar el nombre del espia", "ERROR EN INGRESO ESPIA", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		
-		if (peso.isEmpty() ) {
-			JOptionPane.showMessageDialog(frame, "Ingresar peso", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
+		if (primerEspia.equals(segundoEspia)) {
+			JOptionPane.showMessageDialog(frame, "Ingresaron mismo espias", "ERROR NO SE PUEDE INGRESAR MISMO ESPIA", JOptionPane.WARNING_MESSAGE);
 			return;
-		} 
-		
-		try {
-			Double pesoFloat = Double.parseDouble(peso);
-            if (pesoFloat > 1 || pesoFloat < 0) {
-                JOptionPane.showMessageDialog(frame, "El peso debe estar entre 0 y 1", "ERROR EN PESO", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-				Aristas arista = new Aristas(primerEspia, segundoEspia, pesoFloat);
-				aristaList.add(arista);
-
-				ingresarEspiaUno.setText("");
-				ingresarEspiaDos.setText("");
-				ingresarProbabilidadIntercep.setText("");
-				
-		} catch (NumberFormatException errorFloatPeso) {
-            JOptionPane.showMessageDialog(frame, "Ingresar una probabilidad de intercepcion en numeros del 0 al 1", "ERROR DE FORMATO", JOptionPane.ERROR_MESSAGE);
-
 		}
+		 
+		Aristas arista = new Aristas(primerEspia, segundoEspia, peso);
+		aristaList.add(arista);
+		sliderProbabilidadIntercep.setValue(0);
+		ingresarEspiaUno.setText("");
+		ingresarEspiaDos.setText("");			
 	}
 			
 //--------------------------------------------------------------------------------------------------------
 
 	public void verificarLista() {
 		if( aristaList.isEmpty()) {
-			JOptionPane.showMessageDialog(frame, "Lista vacia", "ERROR GRAFO VACIO, CREAR RELACION", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ERROR GRAFO VACIO, CREAR RELACION", "Lista vacia", JOptionPane.WARNING_MESSAGE);
 		}else {
 	    	frame.setVisible(false);
         	GrafoOriginal.main(null);
