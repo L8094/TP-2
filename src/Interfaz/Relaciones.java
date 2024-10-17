@@ -45,7 +45,7 @@ public class Relaciones {
 
   	public void verificarLista() {
   		if( aristaList.isEmpty()) {
-  			JOptionPane.showMessageDialog(frame, "ERROR GRAFO VACIO, CREAR RELACION", "Lista vacia", JOptionPane.WARNING_MESSAGE);
+  			JOptionPane.showMessageDialog(frame, "Lista vacia, crear relacion", "ERROR GRAFO VACIO", JOptionPane.WARNING_MESSAGE);
   		}else {
   	    	frame.setVisible(false);
           	GrafoOriginal.main(null);
@@ -94,7 +94,7 @@ public class Relaciones {
 	    if (aristaList != null && !aristaList.isEmpty()) {
 	        mostrarRelacionesEntreEspias(aristaList);
 	    } else {
-	        mostrarRelac.setText("- Para comenzar crea una relación entre espías -");
+	        mostrarRelac.setText("- Para comenzar crea una relacion entre espias -");
 	    }
 	}
 //--------------------------------------------------------------------------------------------------------

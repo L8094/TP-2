@@ -93,7 +93,7 @@ public class GrafoOriginal {
 	        JLabel labelPrim = new JLabel("Tiempo de ejecucion de Prim: " + tiempoPrim + " ns");
 	        JLabel labelComparacion;
 	        if (tiempoKruskal == 0 || tiempoPrim == 0) {
-	            labelComparacion = new JLabel("Falta crear algún AGM para comparar");
+	            labelComparacion = new JLabel("Falta crear algun AGM para comparar");
 	        } else {
 	            if (tiempoKruskal < tiempoPrim) {
 	                labelComparacion = new JLabel("Kruskal genero un agm mas rapido");
@@ -122,7 +122,7 @@ public class GrafoOriginal {
 	    
 	    private void mostrarComparacionTiempos(double tiempoKruskal, double tiempoPrim) {
 	        JPanel panelComparacion = crearPanelComparacion(tiempoKruskal, tiempoPrim);
-	        JOptionPane.showMessageDialog(frame, panelComparacion, "Comparación de Tiempos", JOptionPane.INFORMATION_MESSAGE);
+	        JOptionPane.showMessageDialog(frame, panelComparacion, "Comparacion de Tiempos", JOptionPane.INFORMATION_MESSAGE);
 	    }
 //--------------------------------------------------------------------------------------------------------
 	  
@@ -154,7 +154,7 @@ public class GrafoOriginal {
 	
 	    private void cargarFondo() {
 		     ImageIcon originalIcon= new ImageIcon(Relaciones.class.getResource("/Imagenes/fondoGrafos.jpg"));
-			 Image scaledImage = originalIcon.getImage().getScaledInstance(750, 500, Image.SCALE_SMOOTH); // Ajusta las dimensiones según sea necesario
+			 Image scaledImage = originalIcon.getImage().getScaledInstance(750, 500, Image.SCALE_SMOOTH); 
 			 JLabel fondoGrafoOriginal = new JLabel(new ImageIcon(scaledImage));
 			 fondoGrafoOriginal.setBounds(0, 0, 734, 461);
 	        panelControles.add(fondoGrafoOriginal);
@@ -230,7 +230,7 @@ public class GrafoOriginal {
 	        frame.setResizable(false);
 	        frame.setBounds(100, 100, 750, 500);
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frame.setTitle("Crear el camino más seguro");
+	        frame.setTitle("Crear el camino mas seguro");
 	
 	        panelMapa = new JPanel();
 	        panelMapa.setBounds(10, 11, 437, 446);
