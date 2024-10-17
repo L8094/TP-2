@@ -13,7 +13,6 @@ import org.junit.Test;
 import Logica.Aristas;
 import Logica.Grafo;
 import Logica.Kruskal;
-import Logica.Prim;
 
 public class TestKruskal {
 

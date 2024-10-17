@@ -10,14 +10,13 @@ import java.util.Queue;
 import java.util.Set;
 
 public class Bfs {
-
-	 static boolean bfs(String vertice, Set<String> visitados, List<Aristas> agm, String objetivo) {
+	    
+	 public static boolean bfs(String vertice, Set<String> visitados, List<Aristas> agm, String objetivo) {
 	        Queue<String> cola = new LinkedList<>();
 	        cola.add(vertice);
 	        visitados.add(vertice);
 
 	        Map<String, List<String>> adyacencias = new HashMap<>();
-	        // Construir el mapa de adyacencias desde las aristas en AGM
 	        for (Aristas a : agm) {
 	            adyacencias.putIfAbsent(a.getInicio(), new ArrayList<>());
 	            adyacencias.putIfAbsent(a.getFin(), new ArrayList<>());
@@ -39,7 +38,5 @@ public class Bfs {
 	        }
 	        return false; 
 	    }
-	
-	
 	
 }

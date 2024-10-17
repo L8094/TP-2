@@ -1,12 +1,12 @@
 package Interfaz;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,12 +15,15 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import Logica.Aristas;
+import Logica.GenerarRandom;
 import Logica.Grafo;
 import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
 
 
 public class GrafoOriginal {
@@ -29,13 +32,43 @@ public class GrafoOriginal {
     private JPanel panelMapa;
     private JPanel panelControles;
     private JMapViewer _mapa;
-    private Random random = new Random();
     private static ArrayList<String> nombresVertices;
     private static List<Coordinate> lasCoord = new ArrayList<>();
     private static Grafo grafo;
-    private JLabel TiempoKruskal = new JLabel("");
-    private JLabel TiempoPrim = new JLabel("");
 
+//--------------------------------------------------------------------------------------------------------   
+
+    public GrafoOriginal() {
+        nombresVertices = new ArrayList<>(); 
+        cargarGrafo();
+    }
+//--------------------------------------------------------------------------------------------------------
+   
+    public static Grafo getGrafo() {
+ 		return grafo;
+ 	}
+ //--------------------------------------------------------------------------------------------------------
+    
+    public static List<Coordinate> getcoord(){
+	   return lasCoord;
+   }
+//--------------------------------------------------------------------------------------------------------
+ 
+   public static List<String> getNombresVertices() {
+	    return nombresVertices;
+	}
+//--------------------------------------------------------------------------------------------------------
+    public static void main(String[] args) {
+    	 EventQueue.invokeLater(new Runnable() {
+             public void run() {
+                 try {
+                     GrafoOriginal window = new GrafoOriginal();
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                 }
+             }
+         });  
+    }
 //--------------------------------------------------------------------------------------------------------
     
     private int cantidadNodos(List<Aristas> listAristas) {
@@ -51,69 +84,93 @@ public class GrafoOriginal {
         }
         return nombresVertices.size(); 
     }
-
+//--------------------------------------------------------------------------------------------------------
+   
+    private JPanel crearPanelComparacion(double tiempoKruskal, double tiempoPrim) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JLabel labelKruskal = new JLabel("Tiempo de ejecucion de Kruskal: " + tiempoKruskal + " ns");
+        JLabel labelPrim = new JLabel("Tiempo de ejecucion de Prim: " + tiempoPrim + " ns");
+        JLabel labelComparacion;
+        if (tiempoKruskal == 0 || tiempoPrim == 0) {
+            labelComparacion = new JLabel("Falta crear algún AGM para comparar");
+        } else {
+            if (tiempoKruskal < tiempoPrim) {
+                labelComparacion = new JLabel("Kruskal genero un agm mas rapido");
+            } else {
+                labelComparacion = new JLabel("Prim genero un agm mas rapido");
+            }
+        }
+        panel.add(labelKruskal);
+        panel.add(labelPrim);
+        panel.add(labelComparacion);
+        return panel;
+    }
  //--------------------------------------------------------------------------------------------------------
-    public void label() {
-        
-        JLabel lblNewLabel = new JLabel("Arbol generador minimo: ");
-        lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 13));
-        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel.setBounds(492, 46, 186, 55);
-        panelControles.add(lblNewLabel);          
-        JButton Kruskal = new JButton("Kruskal");
+    
+    private void boton_compararTiempo() {
+	    JButton btnCompararTiempos = new JButton("Comparar Tiempos");
+	    btnCompararTiempos.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    			mostrarComparacionTiempos(grafo.getTiempoKruskal(), grafo.getTiempoPrim());
+	    	}
+	    });
+	    btnCompararTiempos.setBounds(522, 383, 150, 23);
+	    panelControles.add(btnCompararTiempos);
+    }
+//--------------------------------------------------------------------------------------------------------
+    
+    private void mostrarComparacionTiempos(double tiempoKruskal, double tiempoPrim) {
+        JPanel panelComparacion = crearPanelComparacion(tiempoKruskal, tiempoPrim);
+        JOptionPane.showMessageDialog(frame, panelComparacion, "Comparación de Tiempos", JOptionPane.INFORMATION_MESSAGE);
+    }
+//--------------------------------------------------------------------------------------------------------
+  
+    private void boton_kruskal() {
+    	JButton Kruskal = new JButton("Kruskal");
         Kruskal.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
-	 			 GrafoKruskal.main(null);
-	 		     setLabelKruskal(grafo.getTiempoKruskal());
-	 			 
+	 			 GrafoKruskal.main(null); 
 	        }
 	    });
-        Kruskal.setBounds(528, 172, 113, 23);
-        panelControles.add(Kruskal);       
+        Kruskal.setBounds(541, 193, 113, 23);
+        panelControles.add(Kruskal);      
+    }
+//--------------------------------------------------------------------------------------------------------
+   
+    private void boton_prim() {
         JButton Prim = new JButton("Prim");
-        Prim.setBounds(528, 298, 113, 23);
+        Prim.setBounds(541, 247, 113, 23);
         Prim.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
 	             GrafoPrim.main(null);
-	             setLabelPrim(grafo.getTiempoPrim());
 	 			 	        }
 	    });
         panelControles.add(Prim);
-        TiempoKruskal.setFont(new Font("Arial Black", Font.PLAIN, 11));
-        TiempoKruskal.setBackground(Color.WHITE);
-        TiempoKruskal.setForeground(Color.BLUE);
-        
-       
-        TiempoKruskal.setBounds(478, 369, 212, 14);
-        panelControles.add(TiempoKruskal);
-        TiempoPrim.setFont(new Font("Arial Black", Font.PLAIN, 11));
-        TiempoPrim.setBackground(Color.WHITE);
-        TiempoPrim.setForeground(Color.BLUE);
-        
-         TiempoPrim.setBounds(478, 403, 200, 14);
-         panelControles.add(TiempoPrim);
-         
-         JPanel panelTiempo = new JPanel();
-         panelTiempo.setBounds(460, 340, 264, 110);
-         panelControles.add(panelTiempo);
-         
-         JLabel fondoGrafoOriginal = new JLabel("");
-         fondoGrafoOriginal.setBounds(0, 0, 734, 461);
-         fondoGrafoOriginal.setIcon(new ImageIcon(Relaciones.class.getResource("/Imagenes/afondoRelaciones.jpg")));
-         panelControles.add(fondoGrafoOriginal);
     }
+//--------------------------------------------------------------------------------------------------------
+
+    private void cargarFondo() {
+	     ImageIcon originalIcon= new ImageIcon(Relaciones.class.getResource("/Imagenes/fondoGrafos.jpg"));
+		 Image scaledImage = originalIcon.getImage().getScaledInstance(750, 500, Image.SCALE_SMOOTH); // Ajusta las dimensiones según sea necesario
+		 JLabel fondoGrafoOriginal = new JLabel(new ImageIcon(scaledImage));
+		 fondoGrafoOriginal.setBounds(0, 0, 734, 461);
+        panelControles.add(fondoGrafoOriginal);
+    }
+//--------------------------------------------------------------------------------------------------------
+
+    public void label() {
+        JLabel lblNewLabel = new JLabel("Arbol generador minimo:");
+        lblNewLabel.setForeground(new Color(255, 255, 255));
+        lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 15));
+        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel.setBounds(482, 95, 230, 55);
+        panelControles.add(lblNewLabel);          
+   	}
+ //--------------------------------------------------------------------------------------------------------
    
-  //-----------------------------------------------------------------------------------------------------------------  
-    public void setLabelKruskal(long tiempo) {
-    	 this.TiempoKruskal.setText("Tiempo de ejecución Kruskal: " + tiempo + " ms");
-    }
-    public void setLabelPrim(long tiempo) {
-    	 this.TiempoPrim.setText("Tiempo de ejecución Prim: " + tiempo + " ms");
-    }
-   //----------------------------------------------------------------------------------------------------------------
-    
     private void cargarGrafo() {
         List<Aristas> listAristas = Relaciones.getListAristas();
         int cantNodos = cantidadNodos(listAristas);
@@ -121,15 +178,11 @@ public class GrafoOriginal {
         for (Aristas arista : listAristas) {
             grafo.agregarArista(arista);
         }
-        
         if (!Grafo.esConexo(listAristas)) {
-            JOptionPane.showMessageDialog(frame, "El grafo original no es conexo", "ERROR INGRESANDO GRAFO - NO CONEXO", JOptionPane.WARNING_MESSAGE);        
-            
+            JOptionPane.showMessageDialog(frame, "GRAFO NO CONEXO - VUELVA A INGRESAR", "ERROR GRAFO", JOptionPane.WARNING_MESSAGE);        
             Relaciones.main(null);
-           
             return;
         }
-        
         initialize();  
         frame.setVisible(true);  
         dibujarVertices(cantNodos);
@@ -139,20 +192,18 @@ public class GrafoOriginal {
    //--------------------------------------------------------------------------------------------------------
     
     private void dibujarVertices(int cantidadVertices) {
-        double latMin = -69.52;
-        double latMax = -66.35;
-        double lonMin = -87.25;
-        double lonMax = -78.77; 
         for (int i = 0; i < cantidadVertices; i++) {
-            double lat = latMin + (latMax - latMin) * random.nextDouble();
-            double lon = lonMin + (lonMax - lonMin) * random.nextDouble();
+        	double lat = GenerarRandom.generarLatitud();
+        	double lon = GenerarRandom.generarLongitud();
             Coordinate coord = new Coordinate(lat, lon);
             lasCoord.add(coord);
             String nombre = nombresVertices.get(i);
-            _mapa.addMapMarker(new MapMarkerDot(nombre, coord));
+            MapMarkerDot marker = new MapMarkerDot(nombre, coord);
+            marker.setBackColor(Color.BLACK);
+            marker.setColor(Color.YELLOW);
+            _mapa.addMapMarker(marker);
         }
     }
-
 //--------------------------------------------------------------------------------------------------------
   
     private void dibujarAristas(List<Aristas> listaAristas, Color C ) {
@@ -172,61 +223,19 @@ public class GrafoOriginal {
             }
         }
     }
-  
+//--------------------------------------------------------------------------------------------------------   
 
-    //--------------------------------------------------------------------------------------------------------
- 
-    public static List<Coordinate> getcoord(){
-	   return lasCoord;
-   }
- 
-    //--------------------------------------------------------------------------------------------------------
-   
-   public static Grafo getGrafo() {
-		return grafo;
-	}
- 
-   //--------------------------------------------------------------------------------------------------------
- 
-   public static List<String> getNombresVertices() {
-	    return nombresVertices;
-	}
-
- //--------------------------------------------------------------------------------------------------------
-    public static void main(String[] args) {
-    	 EventQueue.invokeLater(new Runnable() {
-             public void run() {
-                 try {
-                     GrafoOriginal window = new GrafoOriginal();
-                 } catch (Exception e) {
-                     e.printStackTrace();
-                 }
-             }
-         });  
-    }
-    
- //--------------------------------------------------------------------------------------------------------   
-
-   
-    public GrafoOriginal() {
-        nombresVertices = new ArrayList<>(); 
-       
-        cargarGrafo();
-    }
- 
- //--------------------------------------------------------------------------------------------------------   
-
-    
     private void initialize() {
         frame = new JFrame();
         frame.setResizable(false);
         frame.setBounds(100, 100, 750, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Crear el camino más seguro");
 
         panelMapa = new JPanel();
-        panelMapa.setBackground(Color.GRAY);
         panelMapa.setBounds(10, 11, 437, 446);
         frame.getContentPane().add(panelMapa);
+
 
         panelControles = new JPanel();
         panelControles.setBounds(457, 11, 242, 446);
@@ -235,10 +244,14 @@ public class GrafoOriginal {
 
         _mapa = new JMapViewer();
         _mapa.setDisplayPosition(new Coordinate(-68, -83), 6);
-        _mapa.setZoomContolsVisible(false);
-
+        _mapa.setZoomControlsVisible(false);
+        panelMapa.setLayout(new BorderLayout());
+        panelMapa.add(_mapa, BorderLayout.CENTER);
         panelMapa.add(_mapa);
         label();
-        
+        boton_compararTiempo();
+        boton_kruskal();
+        boton_prim();
+        cargarFondo();
     }
 }
