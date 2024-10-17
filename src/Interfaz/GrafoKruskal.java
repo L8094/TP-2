@@ -22,24 +22,32 @@ import javax.swing.JButton;
 
 public class GrafoKruskal {
 
-    private JFrame frame;
+    static JFrame frame;
     private JPanel panelMapa;
     private JPanel panelControles;
     private JMapViewer _mapa;
     private JTextArea textArea;
     private ArrayList<String> nombresVertices;
     private List<Coordinate> lasCoord = new ArrayList<>();
-    
+    private  long tiempoEjecucion;
+    private boolean creado = false;
  //--------------------------------------------------------------------------------------------------------
     public void mostrarAGM(List<Aristas> agm) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Arbol generador minimo Kruskal: \n");
-        for (Aristas arista : agm) {
-            sb.append("Inicio: ").append(arista.getInicio())
-              .append(", Fin: ").append(arista.getFin())
-              .append(", Peso: ").append(arista.getPeso()).append("\n");
-        }
-        textArea.setText(sb.toString());
+    	if(creado == false) {
+    		System.out.println("ENtro");
+    		this.creado = true;
+    		StringBuilder sb = new StringBuilder();
+            sb.append("Arbol generador minimo Kruskal: \n");
+            for (Aristas arista : agm) {
+                sb.append("Inicio: ").append(arista.getInicio())
+                  .append(", Fin: ").append(arista.getFin())
+                  .append(", Peso: ").append(arista.getPeso()).append("\n");
+            }
+            sb.append("Tiempo de ejecucion: \n"+ tiempoEjecucion +" Milisegundos");
+            textArea.setText(sb.toString());
+    	}
+    	
+        
     }
 
    //--------------------------------------------------------------------------------------------------------
@@ -61,20 +69,38 @@ public class GrafoKruskal {
 
    //--------------------------------------------------------------------------------------------------------
     private void cargarGrafo() {
-        Grafo grafo = GrafoOriginal.getGrafo();
-        List<Aristas> listAristas = Relaciones.getListAristas();
-        nombresVertices = new ArrayList<>(GrafoOriginal.getNombresVertices());
-        
-        Kruskal kruskal = new Kruskal(grafo);
-        List<Aristas> agm = kruskal.encontrarAGM();  
-        initialize();  
-        frame.setVisible(true);  
-        
-        mostrarAGM(agm);
-        dibujarVertices();
-        dibujarAristas(listAristas, Color.RED);
-        dibujarAristas(agm, Color.BLUE);
+    	if(!this.creado) {
+    	
+	        Grafo grafo = GrafoOriginal.getGrafo();
+	        
+	        List<Aristas> listAristas = Relaciones.getListAristas();
+	        nombresVertices = new ArrayList<>(GrafoOriginal.getNombresVertices());
+	        
+	        Kruskal kruskal = new Kruskal(grafo);
+	    	long inicioTiempo =  System.currentTimeMillis();
+	    	
+	        List<Aristas> agm = kruskal.encontrarAGM();
+	        
+	        long finTiempo= System.currentTimeMillis();;
+	        this.tiempoEjecucion= finTiempo - inicioTiempo;
+	        grafo.setTiempoKruskal(tiempoEjecucion);
+	     
+	        initialize();  
+	        frame.setVisible(true);  
+	        
+	        mostrarAGM(agm);
+	        dibujarVertices();
+	        dibujarAristas(listAristas, Color.RED);
+	        dibujarAristas(agm, Color.BLUE);
+    	}
+    	
     }
+    
+    
+    public long tiempoEjecucion() {
+    	return this.tiempoEjecucion;
+    }
+    
 
   //--------------------------------------------------------------------------------------------------------
     private void dibujarVertices() {
@@ -134,6 +160,7 @@ public class GrafoKruskal {
 
     private void initialize() {
         frame = new JFrame();
+        frame.setResizable(false);
         frame.setBounds(100, 100, 750, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
