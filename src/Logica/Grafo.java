@@ -9,13 +9,32 @@ import java.util.Set;
 		    private List<Aristas> aristas;
 		    private static int numeroDeVertices;
 		    
+		    private long tiempoEjecucionKruskal;
+		    private long tiempoEjecucionPrim;
+		    
 //--------------------------------------------------------------------------------------------------------	
 			
 		    public Grafo(int numeroDeNodos) {
 		        Grafo.numeroDeVertices = numeroDeNodos;
 		        this.aristas = new ArrayList<>();
+		        this.tiempoEjecucionKruskal=0;
+		        this.tiempoEjecucionPrim=0;
 		    }
-
+		    
+		    public long getTiempoKruskal() {
+		    	return this.tiempoEjecucionKruskal;
+		    }
+		    public long getTiempoPrim()
+		    {
+		    	return this.tiempoEjecucionPrim;
+		    }
+		    public void setTiempoKruskal(long tiempo) {
+		    	this.tiempoEjecucionKruskal = tiempo;
+		    }
+		    public void setTiempoPrim(long tiempo)
+		    {
+		    	 this.tiempoEjecucionPrim = tiempo;
+		    }
 //--------------------------------------------------------------------------------------------------------	
 		    	 public void agregarArista(Aristas arista) {
 		                if (arista.getPeso() < 0) {
@@ -48,6 +67,8 @@ import java.util.Set;
 		    public List<Aristas> getAristas() {
 		        return aristas;
 		    }
+		    
+	
 
 //--------------------------------------------------------------------------------------------------------	
 					    
