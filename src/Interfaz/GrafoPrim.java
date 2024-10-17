@@ -6,9 +6,8 @@ package Interfaz;
 	import java.awt.event.ActionListener;
 	import java.util.ArrayList;
 	import java.util.List;
-	import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+	import javax.swing.JFrame;	
+	import javax.swing.JPanel;
 	import javax.swing.JTextArea;
 	import org.openstreetmap.gui.jmapviewer.Coordinate;
 	import org.openstreetmap.gui.jmapviewer.JMapViewer;
@@ -18,7 +17,6 @@ import javax.swing.JPanel;
 	import Logica.Grafo;
 	import Logica.Prim;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 
@@ -31,19 +29,29 @@ import javax.swing.JButton;
 	    private JTextArea textArea;
 	    private ArrayList<String> nombresVertices;
 	    private List<Coordinate> lasCoord = new ArrayList<>();
-	    
+	    private long tiempoEjecucion;
+	    private boolean creado= false;
 	    
 	    //--------------------------------------------------------------------------------------------------------
+	    /**
+	     * @wbp.parser.entryPoint
+	     */
 	    public void mostrarAGM(List<Aristas> agm) {
-	        StringBuilder sb = new StringBuilder();
-	        sb.append("Arbol generador minimo Prim: \n");
-	        for (Aristas arista : agm) {
-	            sb.append("Inicio: ").append(arista.getInicio())
-	              .append(", Fin: ").append(arista.getFin())
-	              .append(", Peso: ").append(arista.getPeso()).append("\n");
-	        }
-	        
-	        textArea.setText(sb.toString());
+	    	if(!creado) {
+	    		this.creado= true;
+		        StringBuilder sb = new StringBuilder();
+		        sb.append("Arbol generador minimo Prim: \n");
+		        for (Aristas arista : agm) {
+		            sb.append("Inicio: ").append(arista.getInicio())
+		              .append(", Fin: ").append(arista.getFin())
+		              .append(", Peso: ").append(arista.getPeso()).append("\n");
+		            
+		        }
+		        sb.append("Tiempo de ejecucion: \n"+ tiempoEjecucion +" Milisegundos");
+		        
+		        textArea.setText(sb.toString());
+	    	}
+	    	
 	    }
 
 	   //--------------------------------------------------------------------------------------------------------
@@ -62,25 +70,36 @@ import javax.swing.JButton;
 	        grafoInterfaz.setBounds(524, 376, 148, 23);
 	        panelControles.add(grafoInterfaz);
 	    }
-	    
-	    
-	   
+
 	   //--------------------------------------------------------------------------------------------------------
 	    private void cargarGrafo() {
-	    	Grafo grafo = GrafoOriginal.getGrafo();
-	        List<Aristas> listAristas = Relaciones.getListAristas();
-	        nombresVertices = new ArrayList<>(GrafoOriginal.getNombresVertices());
-	        
-	        Prim prim = new Prim(grafo);
-	        
-	        
-	        List<Aristas> agm = prim.encontrarAGM();  
-	        initialize();  
-	        frame.setVisible(true);  
-	        mostrarAGM(agm);
-	        dibujarVertices();
-	        dibujarAristas(listAristas, Color.RED);
-	        dibujarAristas(agm, Color.GREEN);
+	    	if(!creado) {
+	    		
+	    		Grafo grafo = GrafoOriginal.getGrafo();
+		        List<Aristas> listAristas = Relaciones.getListAristas();
+		        nombresVertices = new ArrayList<>(GrafoOriginal.getNombresVertices());
+		        
+		        Prim prim = new Prim(grafo);
+		        long tiempoInicio = System.currentTimeMillis();
+		        List<Aristas> agm = prim.encontrarAGM();  
+		        long tiempoFin= System.currentTimeMillis();
+		        
+		        this.tiempoEjecucion = tiempoFin - tiempoInicio;
+		        grafo.setTiempoPrim(tiempoEjecucion);
+		        
+		        initialize();  
+		        frame.setVisible(true);  
+		        mostrarAGM(agm);
+		        dibujarVertices();
+		        dibujarAristas(listAristas, Color.RED);
+		        dibujarAristas(agm, Color.GREEN);
+	    	}
+	    	
+	    
+	    }
+	    
+	    public long tiempoEjecucion() {
+	    	return this.tiempoEjecucion;
 	    }
 
 
@@ -130,6 +149,9 @@ import javax.swing.JButton;
 	    
 	 //--------------------------------------------------------------------------------------------------------   
 
+	    /**
+	     * @wbp.parser.entryPoint
+	     */
 	    public GrafoPrim() {
 	        nombresVertices = new ArrayList<>(); 
 	       
@@ -140,6 +162,7 @@ import javax.swing.JButton;
 
 	    private void initialize() {
 	        frame = new JFrame();
+	        frame.setResizable(false);
 	        frame.setBounds(100, 100, 750, 500);
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -155,7 +178,7 @@ import javax.swing.JButton;
 	        _mapa = new JMapViewer();
 	        _mapa.setDisplayPosition(new Coordinate(-68, -83), 6);
 	        _mapa.setZoomContolsVisible(false);
-	  
+
 	        panelMapa.add(_mapa);
 	        label();
 	        
