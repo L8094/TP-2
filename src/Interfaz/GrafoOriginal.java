@@ -17,8 +17,10 @@ import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import Logica.Aristas;
 import Logica.Grafo;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.Font;
 
 
 public class GrafoOriginal {
@@ -31,6 +33,8 @@ public class GrafoOriginal {
     private static ArrayList<String> nombresVertices;
     private static List<Coordinate> lasCoord = new ArrayList<>();
     private static Grafo grafo;
+    private JLabel TiempoKruskal = new JLabel("");
+    private JLabel TiempoPrim = new JLabel("");
 
 //--------------------------------------------------------------------------------------------------------
     
@@ -52,6 +56,7 @@ public class GrafoOriginal {
     public void label() {
         
         JLabel lblNewLabel = new JLabel("Arbol generador minimo: ");
+        lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 13));
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel.setBounds(492, 46, 186, 55);
         panelControles.add(lblNewLabel);          
@@ -59,7 +64,10 @@ public class GrafoOriginal {
         Kruskal.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
-	 			 GrafoKruskal.main(null);	        }
+	 			 GrafoKruskal.main(null);
+	 		     setLabelKruskal(grafo.getTiempoKruskal());
+	 			 
+	        }
 	    });
         Kruskal.setBounds(528, 172, 113, 23);
         panelControles.add(Kruskal);       
@@ -69,12 +77,42 @@ public class GrafoOriginal {
 	        public void actionPerformed(ActionEvent e) {
 	             frame.setVisible(false);
 	             GrafoPrim.main(null);
+	             setLabelPrim(grafo.getTiempoPrim());
 	 			 	        }
 	    });
         panelControles.add(Prim);
+        TiempoKruskal.setFont(new Font("Arial Black", Font.PLAIN, 11));
+        TiempoKruskal.setBackground(Color.WHITE);
+        TiempoKruskal.setForeground(Color.BLUE);
+        
+       
+        TiempoKruskal.setBounds(478, 369, 212, 14);
+        panelControles.add(TiempoKruskal);
+        TiempoPrim.setFont(new Font("Arial Black", Font.PLAIN, 11));
+        TiempoPrim.setBackground(Color.WHITE);
+        TiempoPrim.setForeground(Color.BLUE);
+        
+         TiempoPrim.setBounds(478, 403, 200, 14);
+         panelControles.add(TiempoPrim);
+         
+         JPanel panelTiempo = new JPanel();
+         panelTiempo.setBounds(460, 340, 264, 110);
+         panelControles.add(panelTiempo);
+         
+         JLabel fondoGrafoOriginal = new JLabel("");
+         fondoGrafoOriginal.setBounds(0, 0, 734, 461);
+         fondoGrafoOriginal.setIcon(new ImageIcon(Relaciones.class.getResource("/Imagenes/afondoRelaciones.jpg")));
+         panelControles.add(fondoGrafoOriginal);
     }
-
-   //--------------------------------------------------------------------------------------------------------
+   
+  //-----------------------------------------------------------------------------------------------------------------  
+    public void setLabelKruskal(long tiempo) {
+    	 this.TiempoKruskal.setText("Tiempo de ejecución Kruskal: " + tiempo + " ms");
+    }
+    public void setLabelPrim(long tiempo) {
+    	 this.TiempoPrim.setText("Tiempo de ejecución Prim: " + tiempo + " ms");
+    }
+   //----------------------------------------------------------------------------------------------------------------
     
     private void cargarGrafo() {
         List<Aristas> listAristas = Relaciones.getListAristas();
@@ -181,10 +219,12 @@ public class GrafoOriginal {
     
     private void initialize() {
         frame = new JFrame();
+        frame.setResizable(false);
         frame.setBounds(100, 100, 750, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panelMapa = new JPanel();
+        panelMapa.setBackground(Color.GRAY);
         panelMapa.setBounds(10, 11, 437, 446);
         frame.getContentPane().add(panelMapa);
 
@@ -201,8 +241,4 @@ public class GrafoOriginal {
         label();
         
     }
-
-
-
-	
 }
