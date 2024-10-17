@@ -59,7 +59,7 @@ public class Relaciones {
 	    sliderProbabilidadIntercep.addChangeListener(new ChangeListener() {
 	        public void stateChanged(ChangeEvent e) {
 	        probabilidad = sliderProbabilidadIntercep.getValue() / 10.0;
-	            System.out.println("Probabilidad de Intercepción: " + probabilidad);
+	            System.out.println("Probabilidad de IntercepciÃ³n: " + probabilidad);
 	        }
 	    });
 	    sliderProbabilidadIntercep.setValue(0);
@@ -208,6 +208,7 @@ public class Relaciones {
 	
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
