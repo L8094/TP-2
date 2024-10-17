@@ -24,7 +24,6 @@ import Logica.Kruskal;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-
 public class GrafoKruskal {
 
 	    static JFrame frame;
@@ -45,46 +44,8 @@ public class GrafoKruskal {
 	       
 	        cargarGrafo();
 	    }
- //--------------------------------------------------------------------------------------------------------
-    
-	    public void mostrarAGM(List<Aristas> agm) {
-	    	if(creado == false) {
-	    		this.creado = true;
-	    		StringBuilder sb = new StringBuilder();
-	            sb.append("Arbol generador minimo Kruskal: \n");
-	            for (Aristas arista : agm) {
-	                sb.append("Inicio: ").append(arista.getInicio())
-	                  .append(", Fin: ").append(arista.getFin())
-	                  .append(", Peso: ").append(arista.getPeso()).append("\n");
-	            }
-	            sb.append("Tiempo de ejecucion: \n"+ tiempoEjecucion +" Nanosegundos");
-	            textArea.setText(sb.toString());
-	    	}       
-	    }
- //--------------------------------------------------------------------------------------------------------
-   
-	    public void label() {
-	        textArea = new JTextArea();
-	        textArea.setBounds(490, 32, 210, 277);
-	        textArea.setEditable(false);
-	        panelControles.add(textArea);
-	        JButton grafoInterfaz = new JButton("Grafo original");
-	        grafoInterfaz.addActionListener(new ActionListener() {
-		        public void actionPerformed(ActionEvent e) {
-		             frame.setVisible(false);
-		 			 GrafoOriginal.frame.setVisible(true);;
-		 			 }
-		    });
-	        grafoInterfaz.setBounds(524, 376, 148, 23);
-	        panelControles.add(grafoInterfaz);    
-	        ImageIcon originalIcon= new ImageIcon(Relaciones.class.getResource("/Imagenes/fondoGrafos.jpg"));
-		 	Image scaledImage = originalIcon.getImage().getScaledInstance(750, 500, Image.SCALE_SMOOTH);
-		 	JLabel fondoGrafoKruskal = new JLabel(new ImageIcon(scaledImage));
-		    fondoGrafoKruskal.setBounds(0, 0, 734, 461);
-		    panelControles.add(fondoGrafoKruskal);
-	    }
 //--------------------------------------------------------------------------------------------------------
-    
+	    
     	public long getTiempoEjecucion() {
 	    	return this.tiempoEjecucion;
 	    }
@@ -101,6 +62,54 @@ public class GrafoKruskal {
              }
          });  
     }
+ //--------------------------------------------------------------------------------------------------------
+    
+	    private void mostrarAGM(List<Aristas> agm) {
+	    	if(creado == false) {
+	    		this.creado = true;
+	    		StringBuilder sb = new StringBuilder();
+	            sb.append("Arbol generador minimo Kruskal: \n");
+	            for (Aristas arista : agm) {
+	                sb.append("Inicio: ").append(arista.getInicio())
+	                  .append(", Fin: ").append(arista.getFin())
+	                  .append(", Peso: ").append(arista.getPeso()).append("\n");
+	            }
+	            sb.append("Tiempo de ejecucion: \n"+ tiempoEjecucion +" Nanosegundos");
+	            textArea.setText(sb.toString());
+	    	}       
+	    }
+	    
+//--------------------------------------------------------------------------------------------------------
+
+	    private void boton_grafo() {
+	        JButton grafoInterfaz = new JButton("Grafo original");
+	        grafoInterfaz.addActionListener(new ActionListener() {
+		        public void actionPerformed(ActionEvent e) {
+		             frame.setVisible(false);
+		 			 GrafoOriginal.frame.setVisible(true);;
+		 			 }
+		    });
+	        grafoInterfaz.setBounds(524, 376, 148, 23);
+	        panelControles.add(grafoInterfaz);    
+	    }
+ //--------------------------------------------------------------------------------------------------------
+	    
+	    private void cargarFondo() {
+	        ImageIcon originalIcon= new ImageIcon(Relaciones.class.getResource("/Imagenes/fondoGrafos.jpg"));
+		 	Image scaledImage = originalIcon.getImage().getScaledInstance(750, 500, Image.SCALE_SMOOTH);
+		 	JLabel fondoGrafoKruskal = new JLabel(new ImageIcon(scaledImage));
+		    fondoGrafoKruskal.setBounds(0, 0, 734, 461);
+		    panelControles.add(fondoGrafoKruskal);
+	    }
+ //--------------------------------------------------------------------------------------------------------
+   
+	    private void label() {
+	        textArea = new JTextArea();
+	        textArea.setBounds(490, 32, 210, 277);
+	        textArea.setEditable(false);
+	        panelControles.add(textArea);
+	    }
+
 //--------------------------------------------------------------------------------------------------------
    
 	    private void cargarGrafo() {
@@ -123,7 +132,6 @@ public class GrafoKruskal {
 		        dibujarAristas(agm, Color.BLUE);
 	    	}
 	    }
-
 //--------------------------------------------------------------------------------------------------------
    
 		 private void dibujarVertices() {
@@ -181,6 +189,8 @@ public class GrafoKruskal {
 	        panelMapa.setLayout(new BorderLayout());
 	        panelMapa.add(_mapa, BorderLayout.CENTER);
 	        panelMapa.add(_mapa);
+	        boton_grafo();
 	        label();
+	        cargarFondo();
 	    }
 }

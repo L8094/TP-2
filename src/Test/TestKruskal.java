@@ -17,17 +17,14 @@ import Logica.Kruskal;
 public class TestKruskal {
 
 	private Grafo grafo;
-//	private Grafo grafoNoConexo;
     private Kruskal kruskal;
     private Kruskal kruskalDuplicado;
-//    private Kruskal kruskalNoConexo;
     
 //------------------------------------------------------------------------------------------------------------------  
     @Before
     public void setUp() {
         grafo = new Grafo(6);
-//        grafoNoConexo = new Grafo(2);
-        // Agregar aristas al grafo
+
         grafo.agregarArista(new Aristas("0", "1", 0.5));
         grafo.agregarArista(new Aristas("0", "2", 0.2));
         grafo.agregarArista(new Aristas("1", "2", 0.7));
@@ -36,24 +33,18 @@ public class TestKruskal {
         grafo.agregarArista(new Aristas("3", "5", 0.1));
         grafo.agregarArista(new Aristas("4", "5", 1.0));  
         
-//        grafoNoConexo.agregarArista(new Aristas("1", "3", 0.3));
-//        grafoNoConexo.agregarArista(new Aristas("2", "4", 0.2));
-        
-//        kruskalNoConexo = new Kruskal(grafoNoConexo);
+
         kruskal = new Kruskal(grafo);
         
     }
 //------------------------------------------------------------------------------------------------------------------
     @Test
     public void testKruskalAGM() {
-        // Ejecutar el algoritmo de Kruskal en el grafo
         List<Aristas> arbolGeneradorMinimo = kruskal.encontrarAGM();
 
-        // Verificar que el numero de aristas en el AGM sea correcto: numero de nodos - 1
         assertEquals(5, arbolGeneradorMinimo.size());
 
         // Verificar las aristas esperadas en el AGM
-        // Estas deben ser las aristas de menor peso que conecten todos los nodos
         assertTrue(contieneArista(arbolGeneradorMinimo, "3", "5", 0.1));
         assertTrue(contieneArista(arbolGeneradorMinimo, "0", "2", 0.2));
         assertTrue(contieneArista(arbolGeneradorMinimo, "1", "3", 0.3));
